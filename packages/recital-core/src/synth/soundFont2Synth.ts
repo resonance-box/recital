@@ -6,7 +6,7 @@ import { type NoteNumber, type Velocity } from '../events'
 import { type Seconds } from '../shared'
 import { type ISynth } from './synth'
 
-interface SF2SynthOptions {
+export interface SoundFont2SynthOptions {
   audioContext: AudioContext
 }
 
@@ -14,7 +14,7 @@ export class SoundFont2Synth implements ISynth {
   setupCompleted: boolean
   private node?: SoundFont2SynthNode
 
-  constructor(url: string | URL, options?: SF2SynthOptions) {
+  constructor(url: string | URL, options?: SoundFont2SynthOptions) {
     this.setupCompleted = false
     const audioContext = options?.audioContext ?? new AudioContext()
     createSoundFont2SynthNode(audioContext, url)

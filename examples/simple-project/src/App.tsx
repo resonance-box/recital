@@ -1,35 +1,35 @@
 import { useState, type FC } from 'react'
 import {
-  Player,
-  SoundFont2Synth,
-  type IPlayer,
+  createRecital,
+  createSoundFont2Synth,
+  createTwinkleTwinkleSong,
+  type IRecital,
 } from '../../../packages/recital-core/dist/recital-core'
-import { createTwinkleTwinkleSong } from '../../../packages/recital-core/src/song/songFactory'
 import './App.css'
 
 const sf2URL = new URL('./assets/GeneralUser GS v1.471.sf2', import.meta.url)
 
 export const App: FC = () => {
-  const [player, setPlayer] = useState<IPlayer | undefined>(undefined)
+  const [recital, setRecital] = useState<IRecital | undefined>(undefined)
 
   const setup = (): void => {
     const audioContext = new AudioContext()
-    const synth = new SoundFont2Synth(sf2URL, { audioContext })
+    const synth = createSoundFont2Synth(sf2URL, { audioContext })
     const song = createTwinkleTwinkleSong()
-    const player = new Player({ song, synth })
-    setPlayer(player)
+    const recital = createRecital({ song, synth })
+    setRecital(recital)
   }
 
-  if (player === undefined) {
+  if (recital === undefined) {
     return <button onClick={setup}>setup</button>
   }
 
   const start = (): void => {
-    player.start()
+    recital.start()
   }
 
   const stop = (): void => {
-    player.stop()
+    recital.stop()
   }
 
   return (
