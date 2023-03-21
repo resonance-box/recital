@@ -14,7 +14,7 @@ interface TrackOptions {
 export class Track implements ITrack {
   private readonly notes: Note[]
 
-  constructor(options?: TrackOptions) {
+  constructor(options?: Partial<TrackOptions>) {
     this.notes = options?.notes ?? []
   }
 

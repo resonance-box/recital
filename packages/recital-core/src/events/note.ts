@@ -1,4 +1,4 @@
-import { type Ticks } from '../shared'
+import { type IHasStringId, type Ticks } from '../shared'
 import { type IEvent } from './shared'
 
 export class NoteNumber {
@@ -7,7 +7,7 @@ export class NoteNumber {
   constructor(value: number) {
     if (!Number.isInteger(value) || value < 0 || value > 127) {
       throw new Error(
-        'Invalid note number. Please pass an integer value between 0 and 127.'
+        `Invalid note number: ${value}. Please pass an integer value between 0 and 127.`
       )
     }
 
@@ -21,7 +21,7 @@ export class Velocity {
   constructor(value: number) {
     if (!Number.isInteger(value) || value < 0 || value > 127) {
       throw new Error(
-        'Invalid velocity. Please pass an integer value between 0 and 127.'
+        `Invalid velocity: ${value}. Please pass an integer value between 0 and 127.`
       )
     }
 
@@ -29,7 +29,7 @@ export class Velocity {
   }
 }
 
-export class Note implements IEvent<'Note'> {
+export class Note implements IEvent<'Note'>, IHasStringId {
   readonly type = 'Note'
   readonly id: string
   readonly ticks: Ticks

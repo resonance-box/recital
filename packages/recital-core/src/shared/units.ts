@@ -7,10 +7,28 @@ export class Ticks {
 
   constructor(value: number) {
     if (!Number.isInteger(value) || value < 0) {
-      throw new Error('Invalid ticks. Please pass an positive integer value.')
+      throw new Error(
+        `Invalid ticks: ${value}. Please pass an positive integer value.`
+      )
     }
 
     this.value = value
+  }
+
+  add(other: Ticks): Ticks {
+    return new Ticks(this.value + other.value)
+  }
+
+  sub(other: Ticks): Ticks | undefined {
+    const calculated = this.value - other.value
+    if (calculated < 0) {
+      return undefined
+    }
+    return new Ticks(this.value - other.value)
+  }
+
+  saturatingSub(other: Ticks): Ticks {
+    return new Ticks(Math.max(0, this.value - other.value))
   }
 }
 
@@ -22,7 +40,9 @@ export class Seconds {
 
   constructor(value: number) {
     if (value < 0) {
-      throw new Error('Invalid seconds. Please pass an positive value.')
+      throw new Error(
+        `Invalid seconds: ${value}. Please pass an positive value.`
+      )
     }
 
     this.value = value
@@ -30,6 +50,22 @@ export class Seconds {
 
   toMilliseconds(): Milliseconds {
     return new Milliseconds(this.value * 1000)
+  }
+
+  add(other: Seconds): Seconds {
+    return new Seconds(this.value + other.value)
+  }
+
+  sub(other: Seconds): Seconds | undefined {
+    const calculated = this.value - other.value
+    if (calculated < 0) {
+      return undefined
+    }
+    return new Seconds(calculated)
+  }
+
+  saturatingSub(other: Seconds): Seconds {
+    return new Seconds(Math.max(0, this.value - other.value))
   }
 }
 
@@ -41,7 +77,9 @@ export class Milliseconds {
 
   constructor(value: number) {
     if (value < 0) {
-      throw new Error('Invalid milliseconds. Please pass an positive value.')
+      throw new Error(
+        `Invalid milliseconds: ${value}. Please pass an positive value.`
+      )
     }
 
     this.value = value
@@ -49,6 +87,22 @@ export class Milliseconds {
 
   toSeconds(): Seconds {
     return new Seconds(this.value / 1000)
+  }
+
+  add(other: Milliseconds): Milliseconds {
+    return new Milliseconds(this.value + other.value)
+  }
+
+  sub(other: Milliseconds): Milliseconds | undefined {
+    const calculated = this.value - other.value
+    if (calculated < 0) {
+      return undefined
+    }
+    return new Milliseconds(calculated)
+  }
+
+  saturatingSub(other: Milliseconds): Milliseconds {
+    return new Milliseconds(Math.max(0, this.value - other.value))
   }
 }
 
@@ -61,7 +115,24 @@ export class PPQ {
   constructor(value: number) {
     if (!Number.isInteger(value) || value < 1) {
       throw new Error(
-        'Invalid ppq. Please pass an integer greater than or equal to 1.'
+        `Invalid ppq: ${value}. Please pass an integer greater than or equal to 1.`
+      )
+    }
+
+    this.value = value
+  }
+}
+
+/**
+ * Beats per minute
+ */
+export class BPM {
+  readonly value: number
+
+  constructor(value: number) {
+    if (!Number.isInteger(value) || value < 1) {
+      throw new Error(
+        `Invalid bpm: ${value}. Please pass an integer greater than or equal to 1.`
       )
     }
 

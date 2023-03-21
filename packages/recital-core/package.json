@@ -2,20 +2,33 @@
   "name": "recital-core",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+  "main": "./dist/recital-core.cjs",
+  "module": "./dist/recital-core.mjs",
+  "types": "./dist/recital-core.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/sf2-synth-audio-worklet.cjs",
+      "import": "./dist/sf2-synth-audio-worklet.mjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && dts-bundle-generator --config ./dts-bundle-generator.config.js",
     "test": "vitest"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",
     "@types/node": "^18.15.3",
+    "dts-bundle-generator": "^7.2.0",
     "typescript": "^4.9.3",
     "vite": "^4.2.0",
     "vitest": "^0.29.5"
   },
   "dependencies": {
     "@paralleldrive/cuid2": "^2.2.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "sf2-synth-audio-worklet": "^0.0.2"
   }
 }

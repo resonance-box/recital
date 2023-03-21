@@ -1,11 +1,11 @@
 import { createId, type Ticks } from '../shared'
-import { TimeSignature, type ITimeSignature } from './timeSignature'
+import { TimeSignature } from './timeSignature'
 
 export const createTimeSignature = (
   ticks: Ticks,
   numerator: number,
   denominator: number
-): ITimeSignature => {
+): TimeSignature => {
   const id = createId()
   return new TimeSignature(id, ticks, numerator, denominator)
 }

@@ -1,7 +1,5 @@
-import { type IHasStringId } from '../shared'
+type EventType = 'Note' | 'NoteOn' | 'NoteOff' | 'TimeSignature'
 
-type EventType = 'Note' | 'TimeSignature'
-
-export interface IEvent<T extends EventType> extends IHasStringId {
+export interface IEvent<T extends EventType> {
   type: T
 }

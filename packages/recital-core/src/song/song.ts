@@ -2,7 +2,7 @@ import { type TimeSignature } from '../events'
 import { PPQ, Ticks } from '../shared'
 import { type ITrack } from '../track'
 
-const DEFAULT_PPQ = 480
+export const DEFAULT_PPQ = 480
 
 export interface ISong {
   readonly ppq: PPQ

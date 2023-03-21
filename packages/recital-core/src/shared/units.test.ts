@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { Milliseconds, PPQ, Seconds, Ticks } from './units'
+import { BPM, Milliseconds, PPQ, Seconds, Ticks } from './units'
 
 describe('Ticks', () => {
   it('should create a valid Ticks object', () => {
@@ -66,5 +66,21 @@ describe('PPQ', () => {
     expect(() => new PPQ(0)).toThrowError('Invalid ppq.')
     expect(() => new PPQ(-480)).toThrowError('Invalid ppq.')
     expect(() => new PPQ(480.5)).toThrowError('Invalid ppq.')
+  })
+})
+
+describe('BPM', () => {
+  it('should create valid bpm', () => {
+    const bpm1 = new BPM(1)
+    expect(bpm1.value).toBe(1)
+
+    const bpm2 = new BPM(480)
+    expect(bpm2.value).toBe(480)
+  })
+
+  it('should throw an error for invalid bpm', () => {
+    expect(() => new BPM(0)).toThrowError('Invalid bpm.')
+    expect(() => new BPM(-480)).toThrowError('Invalid bpm.')
+    expect(() => new BPM(480.5)).toThrowError('Invalid bpm.')
   })
 })
