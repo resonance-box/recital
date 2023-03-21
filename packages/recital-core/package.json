@@ -1,5 +1,5 @@
 {
-  "name": "recital-core",
+  "name": "@resonance-box/recital-core",
   "private": true,
   "version": "0.0.0",
   "main": "./dist/recital-core.cjs",
@@ -7,8 +7,8 @@
   "types": "./dist/recital-core.d.ts",
   "exports": {
     ".": {
-      "require": "./dist/sf2-synth-audio-worklet.cjs",
-      "import": "./dist/sf2-synth-audio-worklet.mjs"
+      "require": "./dist/recital-core.cjs",
+      "import": "./dist/recital-core.mjs"
     }
   },
   "files": [
@@ -30,5 +30,15 @@
     "@paralleldrive/cuid2": "^2.2.0",
     "lodash": "^4.17.21",
     "sf2-synth-audio-worklet": "^0.0.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/resonance-box/recital.git"
+  },
+  "author": "ot07",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/resonance-box/recital/issues"
+  },
+  "homepage": "https://github.com/resonance-box/recital#readme"
 }
