@@ -1,6 +1,5 @@
 {
   "name": "@resonance-box/recital-core",
-  "private": true,
   "version": "0.0.0",
   "main": "./dist/recital-core.cjs",
   "module": "./dist/recital-core.mjs",
