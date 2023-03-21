@@ -39,5 +39,8 @@
   "bugs": {
     "url": "https://github.com/resonance-box/recital/issues"
   },
-  "homepage": "https://github.com/resonance-box/recital#readme"
+  "homepage": "https://github.com/resonance-box/recital#readme",
+  "publishConfig": {
+    "access": "public"
+  }
 }
