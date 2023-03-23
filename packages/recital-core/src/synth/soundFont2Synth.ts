@@ -6,9 +6,11 @@ import { type NoteNumber, type Velocity } from '../events'
 import { type Seconds } from '../shared'
 import { type ISynth } from './synth'
 
-export interface SoundFont2SynthOptions {
-  audioContext: AudioContext
-}
+export interface SoundFont2SynthOptions
+  extends Partial<{
+    audioContext: AudioContext
+    onSetupCompleted?: (setupCompleted: boolean) => void
+  }> {}
 
 export class SoundFont2Synth implements ISynth {
   setupCompleted: boolean
@@ -22,6 +24,7 @@ export class SoundFont2Synth implements ISynth {
         node.connect(audioContext.destination)
         this.node = node
         this.setupCompleted = true
+        options?.onSetupCompleted?.(true)
       })
       .catch((err) => {
         throw new Error(

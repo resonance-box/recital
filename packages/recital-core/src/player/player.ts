@@ -8,7 +8,6 @@ import {
   ticksToSeconds,
 } from '../shared'
 import { type ISong } from '../song'
-import { createDefaultSong } from '../song/songFactory'
 import { type ISynth } from '../synth'
 import { Transport, type ITransport } from './transport'
 import { disassembleNotes, filterEventsWithTicksRange } from './utils'
@@ -17,25 +16,26 @@ const DEFAULT_LOOK_AHEAD_TIME = 50
 const DEFAULT_BPM = 120
 
 export interface IPlayer {
+  song: ISong
   start: () => void
   stop: () => void
 }
 
-export interface PlayerOptions {
-  song: ISong
-  lookAheadTime: Milliseconds
-  synth: ISynth
-}
+export interface PlayerOptions
+  extends Partial<{
+    lookAheadTime: Milliseconds
+    synth: ISynth
+  }> {}
 
 export class Player implements IPlayer {
-  private readonly song: ISong
+  song: ISong
   private readonly lookAheadTime: Milliseconds
   private scheduledTicks: Ticks
   private readonly transport: ITransport
   private readonly synth?: ISynth
 
-  constructor(options?: Partial<PlayerOptions>) {
-    this.song = options?.song ?? createDefaultSong()
+  constructor(song: ISong, options?: PlayerOptions) {
+    this.song = song
     this.lookAheadTime =
       options?.lookAheadTime ?? new Milliseconds(DEFAULT_LOOK_AHEAD_TIME)
     this.scheduledTicks = new Ticks(0)

@@ -24,11 +24,12 @@ export interface ITransport {
 
 type OnUpdate = (time: { ticks: Ticks; seconds: Seconds }) => void
 
-interface TransportOptions {
-  bpm: BPM
-  ppq: PPQ
-  updateIntervalTime: Milliseconds
-}
+interface TransportOptions
+  extends Partial<{
+    bpm: BPM
+    ppq: PPQ
+    updateIntervalTime: Milliseconds
+  }> {}
 
 export class Transport implements ITransport {
   private running: boolean
@@ -41,7 +42,7 @@ export class Transport implements ITransport {
   private intervalId?: NodeJS.Timer
   onUpdate?: OnUpdate
 
-  constructor(options?: Partial<TransportOptions>) {
+  constructor(options?: TransportOptions) {
     this.running = false
     this.ticks = new Ticks(0)
     this.seconds = new Seconds(0)

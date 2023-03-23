@@ -1,24 +1,27 @@
-import { type IPlayer } from './player'
-import { createPlayer } from './player/playerFactory'
-import { type ISong } from './song'
+import { createPlayer, type IPlayer } from './player'
+import { createDefaultSong, type ISong } from './song'
 import { type ISynth } from './synth'
 
 export interface IRecital {
+  readonly song: ISong
+  player: IPlayer
   start: () => void
   stop: () => void
 }
 
-export interface RecitalOptions {
-  song: ISong
-  synth: ISynth
-}
+export interface RecitalOptions
+  extends Partial<{
+    song: ISong
+    synth: ISynth
+  }> {}
 
 export class Recital implements IRecital {
-  private readonly player: IPlayer
+  readonly song: ISong
+  player: IPlayer
 
-  constructor(options?: Partial<RecitalOptions>) {
-    this.player = createPlayer({
-      song: options?.song,
+  constructor(options?: RecitalOptions) {
+    this.song = options?.song ?? createDefaultSong()
+    this.player = createPlayer(this.song, {
       synth: options?.synth,
     })
   }

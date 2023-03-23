@@ -7,14 +7,15 @@ export interface ITrack {
   addNotes: (notes: Note[]) => void
 }
 
-interface TrackOptions {
-  notes: Note[]
-}
+interface TrackOptions
+  extends Partial<{
+    notes: Note[]
+  }> {}
 
 export class Track implements ITrack {
   private readonly notes: Note[]
 
-  constructor(options?: Partial<TrackOptions>) {
+  constructor(options?: TrackOptions) {
     this.notes = options?.notes ?? []
   }
 

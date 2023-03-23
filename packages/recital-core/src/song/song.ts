@@ -1,4 +1,5 @@
-import { type TimeSignature } from '../events'
+import produce from 'immer'
+import { type Note, type TimeSignature } from '../events'
 import { PPQ, Ticks } from '../shared'
 import { type ITrack } from '../track'
 
@@ -10,15 +11,17 @@ export interface ISong {
   readonly timeSignatures: TimeSignature[]
   endOfSongTicks: Ticks
   addTrack: (track: ITrack) => void
+  addNote: (note: Note, trackIndex: number) => void
   addTimeSignature: (timeSignature: TimeSignature) => void
+  immerAddTrack: (track: ITrack) => ISong
 }
 
-interface SongOptions {
+type SongOptions = Partial<{
   ppq: PPQ
   tracks: ITrack[]
   timeSignatures: TimeSignature[]
   endOfSongTicks: Ticks
-}
+}>
 
 export class Song implements ISong {
   readonly ppq: PPQ
@@ -26,7 +29,7 @@ export class Song implements ISong {
   readonly timeSignatures: TimeSignature[]
   endOfSongTicks: Ticks
 
-  constructor(options?: Partial<SongOptions>) {
+  constructor(options?: SongOptions) {
     this.ppq = options?.ppq ?? new PPQ(DEFAULT_PPQ)
     this.tracks = options?.tracks ?? []
     this.timeSignatures = options?.timeSignatures ?? []
@@ -37,7 +40,17 @@ export class Song implements ISong {
     this.tracks.push(track)
   }
 
+  addNote(note: Note, trackIndex: number): void {
+    this.tracks[trackIndex].addNote(note)
+  }
+
   addTimeSignature(timeSignature: TimeSignature): void {
     this.timeSignatures.push(timeSignature)
+  }
+
+  immerAddTrack(track: ITrack): ISong {
+    return produce(this, (draft) => {
+      draft.tracks.push(track)
+    })
   }
 }
