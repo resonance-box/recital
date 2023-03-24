@@ -1,4 +1,3 @@
-import { immerable } from 'immer'
 import {
   Milliseconds,
   Seconds,
@@ -29,8 +28,6 @@ export interface PlayerOptions
   }> {}
 
 export class PlayerImpl implements Player {
-  [immerable] = true
-
   song: Song
   private readonly lookAheadTime: Milliseconds
   private scheduledTicks: Ticks
