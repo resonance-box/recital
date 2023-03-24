@@ -33,8 +33,8 @@ type RecitalStore = ReturnType<typeof createRecitalStore>
 const createRecitalStore = (options?: RecitalOptions) => {
   const recital = new Recital(options)
   return createStore<RecitalState>()((set, get) => ({
-    song: recital.song,
     player: recital.player,
+    getSong: () => recital.getSong(),
     start: () => {
       recital.start()
     },
@@ -42,19 +42,19 @@ const createRecitalStore = (options?: RecitalOptions) => {
       recital.stop()
     },
     addTrack: (track: ITrack) => {
-      const song = produce(get().song, (draft) => draft.addTrack(track))
+      const song = produce(get().getSong(), (draft) => draft.addTrack(track))
       const player = get().player
       player.song = song
-      set({ song, player })
+      set({ player })
     },
     addNote: (note: Note, trackIndex: number) => {
-      const song = produce(get().song, (draft) => {
+      const song = produce(get().getSong(), (draft) => {
         draft.tracks[trackIndex].addNote(note)
       })
 
       const player = get().player
       player.song = song
-      set({ song, player })
+      set({ player })
     },
   }))
 }

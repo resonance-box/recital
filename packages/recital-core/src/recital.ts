@@ -3,8 +3,8 @@ import { createDefaultSong, type ISong } from './song'
 import { type ISynth } from './synth'
 
 export interface IRecital {
-  readonly song: ISong
   player: IPlayer
+  getSong: () => ISong
   start: () => void
   stop: () => void
 }
@@ -16,14 +16,17 @@ export interface RecitalOptions
   }> {}
 
 export class Recital implements IRecital {
-  readonly song: ISong
   player: IPlayer
 
   constructor(options?: RecitalOptions) {
-    this.song = options?.song ?? createDefaultSong()
-    this.player = createPlayer(this.song, {
+    const song = options?.song ?? createDefaultSong()
+    this.player = createPlayer(song, {
       synth: options?.synth,
     })
+  }
+
+  getSong(): ISong {
+    return this.player.song
   }
 
   start(): void {
