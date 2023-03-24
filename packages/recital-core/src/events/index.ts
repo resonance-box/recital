@@ -1,5 +1,7 @@
 export * from './note'
 export * from './noteFactory'
 export * from './shared'
+export * from './tempo'
+export * from './tempoFactory'
 export * from './timeSignature'
 export * from './timeSignatureFactory'
