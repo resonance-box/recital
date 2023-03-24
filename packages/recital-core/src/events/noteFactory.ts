@@ -1,12 +1,17 @@
-import { createId, type Ticks } from '../shared'
-import { Note, type NoteNumber, type Velocity } from './note'
+import { createId, Ticks } from '../shared'
+import { Note, NoteNumber, Velocity } from './note'
 
 export const createNote = (
-  ticks: Ticks,
-  durationTicks: Ticks,
-  noteNumber: NoteNumber,
-  velocity: Velocity
+  ticks: number,
+  durationTicks: number,
+  noteNumber: number,
+  velocity: number
 ): Note => {
-  const id = createId()
-  return new Note(id, ticks, durationTicks, noteNumber, velocity)
+  return new Note(
+    createId(),
+    new Ticks(ticks),
+    new Ticks(durationTicks),
+    new NoteNumber(noteNumber),
+    new Velocity(velocity)
+  )
 }

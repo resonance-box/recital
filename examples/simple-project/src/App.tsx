@@ -5,9 +5,6 @@ import {
   useSoundFont2Synth,
 } from '@resonance-box/react-recital'
 import {
-  NoteNumber,
-  Ticks,
-  Velocity,
   createEmptyTrack,
   createNote,
   createTwinkleTwinkleSong,
@@ -28,17 +25,7 @@ const Track: FC<TrackProps> = ({ track }) => {
     <Stack>
       <Button
         color="green"
-        onClick={() =>
-          addNote(
-            track.id,
-            createNote(
-              new Ticks(0),
-              new Ticks(480),
-              new NoteNumber(65),
-              new Velocity(80)
-            )
-          )
-        }
+        onClick={() => addNote(track.id, createNote(0, 480, 65, 80))}
       >
         addNote
       </Button>

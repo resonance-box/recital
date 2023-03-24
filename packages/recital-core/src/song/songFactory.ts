@@ -1,10 +1,4 @@
-import {
-  createNote,
-  createTimeSignature,
-  NoteNumber,
-  Velocity,
-} from '../events'
-import { Ticks } from '../shared'
+import { createNote, createTimeSignature } from '../events'
 import { createEmptyTrack } from '../track'
 import { DEFAULT_PPQ, Song, type ISong } from './song'
 
@@ -12,7 +6,7 @@ export const createDefaultSong = (): ISong => {
   const track = createEmptyTrack()
   return new Song({
     tracks: [track],
-    timeSignatures: [createTimeSignature(new Ticks(0), 4, 4)],
+    timeSignatures: [createTimeSignature(0, 4, 4)],
   })
 }
 
@@ -41,14 +35,7 @@ export const createTwinkleTwinkleSong = (): ISong => {
 
   const track = song.getTracks()[0]
   notes.forEach(({ ticks, durationTicks, noteNumber, velocity }) => {
-    track.addNote(
-      createNote(
-        new Ticks(ticks),
-        new Ticks(durationTicks),
-        new NoteNumber(noteNumber),
-        new Velocity(velocity)
-      )
-    )
+    track.addNote(createNote(ticks, durationTicks, noteNumber, velocity))
   })
 
   return song
