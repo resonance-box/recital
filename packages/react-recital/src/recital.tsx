@@ -1,10 +1,10 @@
 import {
-  Recital,
-  type IRecital,
-  type ISong,
-  type ISynth,
-  type ITrack,
+  RecitalImpl,
   type Note,
+  type Recital,
+  type Song,
+  type Synth,
+  type Track,
 } from '@resonance-box/recital-core'
 import produce from 'immer'
 import {
@@ -18,17 +18,17 @@ import { createStore, useStore } from 'zustand'
 
 interface RecitalOptions
   extends Partial<{
-    synth: ISynth
-    song: ISong
+    synth: Synth
+    song: Song
   }> {}
 
 type RecitalStore = ReturnType<typeof createRecitalStore>
 
 const createRecitalStore = (
   options?: RecitalOptions
-): ReturnType<ReturnType<typeof createStore<IRecital>>> => {
-  const recital = new Recital(options)
-  return createStore<IRecital>((set, get) => ({
+): ReturnType<ReturnType<typeof createStore<Recital>>> => {
+  const recital = new RecitalImpl(options)
+  return createStore<Recital>((set, get) => ({
     player: recital.player,
     start: () => {
       get().player.start()
@@ -37,7 +37,7 @@ const createRecitalStore = (
       get().player.stop()
     },
     getSong: () => get().player.song,
-    setSong: (song: ISong) => {
+    setSong: (song: Song) => {
       const player = get().player
       player.song = song
       set({ player })
@@ -51,7 +51,7 @@ const createRecitalStore = (
     getTrack: (id: string) => {
       return get().getSong().getTrack(id)
     },
-    addTrack: (track: ITrack) => {
+    addTrack: (track: Track) => {
       const song = produce(get().getSong(), (draft) => {
         draft.addTrack(track)
       })
@@ -107,7 +107,7 @@ export const RecitalProvider: FC<RecitalProviderProps> = ({
   )
 }
 
-export const useRecital = (): IRecital => {
+export const useRecital = (): Recital => {
   const store = useContext(RecitalContext)
 
   if (store == null) {

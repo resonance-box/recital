@@ -3,7 +3,7 @@ import { sortBy } from 'lodash'
 import { type Note } from '../events'
 import { type IHasStringId } from '../shared'
 
-export interface ITrack extends IHasStringId {
+export interface Track extends IHasStringId {
   readonly sortedNotes: Note[]
   findNote: (id: string) => Note | undefined
   addNote: (note: Note) => void
@@ -11,12 +11,12 @@ export interface ITrack extends IHasStringId {
   deleteNote: (id: string) => void
 }
 
-interface TrackOptions
+export interface TrackOptions
   extends Partial<{
     notes: Note[]
   }> {}
 
-export class Track implements ITrack {
+export class TrackImpl implements Track {
   [immerable] = true
 
   readonly id: string

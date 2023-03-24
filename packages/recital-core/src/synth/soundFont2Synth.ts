@@ -4,7 +4,7 @@ import {
 } from 'sf2-synth-audio-worklet'
 import { type NoteNumber, type Velocity } from '../events'
 import { type Seconds } from '../shared'
-import { type ISynth } from './synth'
+import { type Synth } from './synth'
 
 export interface SoundFont2SynthOptions
   extends Partial<{
@@ -12,7 +12,7 @@ export interface SoundFont2SynthOptions
     onSetupCompleted?: (setupCompleted: boolean) => void
   }> {}
 
-export class SoundFont2Synth implements ISynth {
+export class SoundFont2Synth implements Synth {
   setupCompleted: boolean
   private node?: SoundFont2SynthNode
 

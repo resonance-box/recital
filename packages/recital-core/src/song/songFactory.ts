@@ -1,16 +1,16 @@
 import { createNote, createTimeSignature } from '../events'
 import { createEmptyTrack } from '../track'
-import { DEFAULT_PPQ, Song, type ISong } from './song'
+import { DEFAULT_PPQ, SongImpl, type Song } from './song'
 
-export const createDefaultSong = (): ISong => {
+export const createDefaultSong = (): Song => {
   const track = createEmptyTrack()
-  return new Song({
+  return new SongImpl({
     tracks: [track],
     timeSignatures: [createTimeSignature(0, 4, 4)],
   })
 }
 
-export const createTwinkleTwinkleSong = (): ISong => {
+export const createTwinkleTwinkleSong = (): Song => {
   const song = createDefaultSong()
   const ppq = DEFAULT_PPQ
   const velocity = 100

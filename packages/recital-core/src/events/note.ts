@@ -1,5 +1,5 @@
 import { type IHasStringId, type Ticks } from '../shared'
-import { type IEvent } from './shared'
+import { type Event } from './shared'
 
 export class NoteNumber {
   readonly value: number
@@ -29,7 +29,7 @@ export class Velocity {
   }
 }
 
-export class Note implements IEvent<'Note'>, IHasStringId {
+export class Note implements Event<'Note'>, IHasStringId {
   readonly type = 'Note'
   readonly id: string
   readonly ticks: Ticks

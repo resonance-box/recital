@@ -1,34 +1,35 @@
 import { immerable } from 'immer'
 import { type TimeSignature } from '../events'
 import { PPQ, Ticks } from '../shared'
-import { type ITrack } from '../track'
+import { type Track } from '../track'
 
 export const DEFAULT_PPQ = 480
 
-export interface ISong {
+export interface Song {
   readonly ppq: PPQ
   readonly timeSignatures: TimeSignature[]
   endOfSongTicks: Ticks
-  getTracks: () => ITrack[]
-  getTrack: (id: string) => ITrack
-  findTrack: (id: string) => ITrack | undefined
-  addTrack: (track: ITrack) => void
+  getTracks: () => Track[]
+  getTrack: (id: string) => Track
+  findTrack: (id: string) => Track | undefined
+  addTrack: (track: Track) => void
   deleteTrack: (id: string) => void
   addTimeSignature: (timeSignature: TimeSignature) => void
 }
 
-type SongOptions = Partial<{
-  ppq: PPQ
-  tracks: ITrack[]
-  timeSignatures: TimeSignature[]
-  endOfSongTicks: Ticks
-}>
+export interface SongOptions
+  extends Partial<{
+    ppq: PPQ
+    tracks: Track[]
+    timeSignatures: TimeSignature[]
+    endOfSongTicks: Ticks
+  }> {}
 
-export class Song implements ISong {
+export class SongImpl implements Song {
   [immerable] = true
 
   readonly ppq: PPQ
-  readonly tracks: ITrack[]
+  readonly tracks: Track[]
   readonly timeSignatures: TimeSignature[]
   endOfSongTicks: Ticks
 
@@ -39,15 +40,15 @@ export class Song implements ISong {
     this.endOfSongTicks = options?.endOfSongTicks ?? new Ticks(0)
   }
 
-  getTracks(): ITrack[] {
+  getTracks(): Track[] {
     return this.tracks
   }
 
-  findTrack(id: string): ITrack | undefined {
+  findTrack(id: string): Track | undefined {
     return this.tracks.find((track) => track.id === id)
   }
 
-  getTrack(id: string): ITrack {
+  getTrack(id: string): Track {
     const track = this.findTrack(id)
     if (track === undefined) {
       throw new Error()
@@ -55,7 +56,7 @@ export class Song implements ISong {
     return track
   }
 
-  addTrack(track: ITrack): void {
+  addTrack(track: Track): void {
     this.tracks.push(track)
   }
 

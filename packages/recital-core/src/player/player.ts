@@ -1,4 +1,3 @@
-// import { type ISoundFont2SynthNode } from 'sf2-synth-audio-worklet'
 import {
   BPM,
   Milliseconds,
@@ -7,16 +6,16 @@ import {
   Ticks,
   ticksToSeconds,
 } from '../shared'
-import { type ISong } from '../song'
-import { type ISynth } from '../synth'
-import { Transport, type ITransport } from './transport'
+import { type Song } from '../song'
+import { type Synth } from '../synth'
+import { TransportImpl, type Transport } from './transport'
 import { disassembleNotes, filterEventsWithTicksRange } from './utils'
 
 const DEFAULT_LOOK_AHEAD_TIME = 50
 const DEFAULT_BPM = 120
 
-export interface IPlayer {
-  song: ISong
+export interface Player {
+  song: Song
   start: () => void
   stop: () => void
 }
@@ -24,23 +23,23 @@ export interface IPlayer {
 export interface PlayerOptions
   extends Partial<{
     lookAheadTime: Milliseconds
-    synth: ISynth
+    synth: Synth
   }> {}
 
-export class Player implements IPlayer {
-  song: ISong
+export class PlayerImpl implements Player {
+  song: Song
   private readonly lookAheadTime: Milliseconds
   private scheduledTicks: Ticks
-  private readonly transport: ITransport
-  private readonly synth?: ISynth
+  private readonly transport: Transport
+  private readonly synth?: Synth
 
-  constructor(song: ISong, options?: PlayerOptions) {
+  constructor(song: Song, options?: PlayerOptions) {
     this.song = song
     this.lookAheadTime =
       options?.lookAheadTime ?? new Milliseconds(DEFAULT_LOOK_AHEAD_TIME)
     this.scheduledTicks = new Ticks(0)
     this.synth = options?.synth
-    this.transport = new Transport({ bpm: new BPM(DEFAULT_BPM) })
+    this.transport = new TransportImpl({ bpm: new BPM(DEFAULT_BPM) })
     this.transport.onUpdate = ({ ticks }) => {
       const startTicks = this.scheduledTicks
       const endTicks = ticks.add(

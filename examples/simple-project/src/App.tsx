@@ -8,7 +8,7 @@ import {
   createEmptyTrack,
   createNote,
   createTwinkleTwinkleSong,
-  type ITrack,
+  type Track,
 } from '@resonance-box/recital-core'
 import { type FC } from 'react'
 
@@ -18,11 +18,11 @@ const getRandomInt = (max: number, min: number = 0): number => {
   return min + Math.floor(Math.random() * (max - min))
 }
 
-interface TrackProps {
-  track: ITrack
+interface TrackUIProps {
+  track: Track
 }
 
-const Track: FC<TrackProps> = ({ track }) => {
+const TrackUI: FC<TrackUIProps> = ({ track }) => {
   const { addNote, deleteNote, getNotes } = useRecital()
   const notes = getNotes(track.id)
   const randomNote = notes[getRandomInt(notes.length)]
@@ -95,7 +95,7 @@ const Main: FC = () => {
       </Group>
       <Flex gap="md">
         {song.getTracks().map((track) => (
-          <Track key={track.id} track={track} />
+          <TrackUI key={track.id} track={track} />
         ))}
       </Flex>
     </Stack>

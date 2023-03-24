@@ -1,12 +1,12 @@
 import {
   createSoundFont2Synth,
-  type ISynth,
   type SoundFont2SynthOptions,
+  type Synth,
 } from '@resonance-box/recital-core'
 import { useState } from 'react'
 
 export interface UseSoundFont2SynthResult {
-  synth: ISynth
+  synth: Synth
 }
 
 export const useSoundFont2Synth = (

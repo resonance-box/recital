@@ -1,5 +1,5 @@
 import { isPowerOfTwo, type IHasStringId, type Ticks } from '../shared'
-import { type IEvent } from './shared'
+import { type Event } from './shared'
 
 const MIN_TIME_SIGNATURE_NUMERATOR = 1
 const MAX_TIME_SIGNATURE_NUMERATOR = 96
@@ -7,7 +7,7 @@ const MAX_TIME_SIGNATURE_NUMERATOR = 96
 const MIN_TIME_SIGNATURE_DENOMINATOR = 1
 const MAX_TIME_SIGNATURE_DENOMINATOR = 64
 
-export class TimeSignature implements IEvent<'TimeSignature'>, IHasStringId {
+export class TimeSignature implements Event<'TimeSignature'>, IHasStringId {
   readonly type = 'TimeSignature'
   readonly id: string
   readonly ticks: Ticks

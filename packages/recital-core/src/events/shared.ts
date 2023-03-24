@@ -1,5 +1,5 @@
 type EventType = 'Note' | 'NoteOn' | 'NoteOff' | 'TimeSignature'
 
-export interface IEvent<T extends EventType> {
+export interface Event<T extends EventType> {
   type: T
 }

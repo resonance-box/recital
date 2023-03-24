@@ -1,7 +1,7 @@
 import { createId } from '../shared'
-import { Track, type ITrack } from './track'
+import { TrackImpl, type Track } from './track'
 
-export const createEmptyTrack = (): ITrack => {
+export const createEmptyTrack = (): Track => {
   const id = createId()
-  return new Track(id)
+  return new TrackImpl(id)
 }

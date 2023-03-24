@@ -1,7 +1,7 @@
 import { type NoteNumber, type Velocity } from '../events'
 import { type Seconds } from '../shared'
 
-export interface ISynth {
+export interface Synth {
   setupCompleted: boolean
   noteOn: (
     noteNumber: NoteNumber,

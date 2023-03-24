@@ -1,6 +1,6 @@
-import { type ISong } from '../song'
-import { Player, type IPlayer, type PlayerOptions } from './player'
+import { type Song } from '../song'
+import { PlayerImpl, type Player, type PlayerOptions } from './player'
 
-export const createPlayer = (song: ISong, options?: PlayerOptions): IPlayer => {
-  return new Player(song, options)
+export const createPlayer = (song: Song, options?: PlayerOptions): Player => {
+  return new PlayerImpl(song, options)
 }
