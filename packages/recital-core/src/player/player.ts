@@ -1,10 +1,11 @@
+import { immerable } from 'immer'
 import {
-  BPM,
   Milliseconds,
-  millisecondsToTicks,
   Seconds,
   Ticks,
+  millisecondsToTicks,
   ticksToSeconds,
+  type BPM,
 } from '../shared'
 import { type Song } from '../song'
 import { type Synth } from '../synth'
@@ -12,7 +13,6 @@ import { TransportImpl, type Transport } from './transport'
 import { disassembleNotes, filterEventsWithTicksRange } from './utils'
 
 const DEFAULT_LOOK_AHEAD_TIME = 50
-const DEFAULT_BPM = 120
 
 export interface Player {
   song: Song
@@ -29,6 +29,8 @@ export interface PlayerOptions
   }> {}
 
 export class PlayerImpl implements Player {
+  [immerable] = true
+
   song: Song
   private readonly lookAheadTime: Milliseconds
   private scheduledTicks: Ticks
@@ -41,7 +43,7 @@ export class PlayerImpl implements Player {
       options?.lookAheadTime ?? new Milliseconds(DEFAULT_LOOK_AHEAD_TIME)
     this.scheduledTicks = new Ticks(0)
     this.synth = options?.synth
-    this.transport = new TransportImpl({ bpm: new BPM(DEFAULT_BPM) })
+    this.transport = new TransportImpl()
     this.transport.onUpdate = ({ ticks }) => {
       const startTicks = this.scheduledTicks
       const endTicks = ticks.add(

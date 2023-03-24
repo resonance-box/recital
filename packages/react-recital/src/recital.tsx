@@ -41,7 +41,9 @@ const createRecitalStore = (
       return get().player.getBpm().value
     },
     setBpm: (bpm: number) => {
+      const player = get().player
       get().player.setBpm(new BPM(bpm))
+      set({ player })
     },
     getSong: () => get().player.song,
     setSong: (song: Song) => {
