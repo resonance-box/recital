@@ -19,6 +19,7 @@ export interface Player {
   stop: () => void
   getBpm: () => BPM
   setBpm: (bpm: BPM) => void
+  onChangeBpm?: (bpm: BPM) => void
 }
 
 export interface PlayerOptions
@@ -33,6 +34,7 @@ export class PlayerImpl implements Player {
   private scheduledTicks: Ticks
   private readonly transport: Transport
   private readonly synth?: Synth
+  onChangeBpm?: (bpm: BPM) => void
 
   constructor(song: Song, options?: PlayerOptions) {
     this.song = song
@@ -111,5 +113,6 @@ export class PlayerImpl implements Player {
 
   setBpm(bpm: BPM): void {
     this.transport.bpm = bpm
+    this.onChangeBpm?.(bpm)
   }
 }
