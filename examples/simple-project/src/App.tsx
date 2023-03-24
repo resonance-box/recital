@@ -17,9 +17,7 @@ import { type FC } from 'react'
 const sf2URL = new URL('./assets/GeneralUser GS v1.471.sf2', import.meta.url)
 
 export const Main: FC = () => {
-  const { start, stop, getSong, addTrack, addNote } = useRecital(
-    (state) => state
-  )
+  const { start, stop, getSong, addTrack, addNote } = useRecital()
 
   const song = getSong()
   console.log('song:', song)

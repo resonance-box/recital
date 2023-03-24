@@ -22,17 +22,18 @@ interface RecitalOptions
     song: ISong
   }> {}
 
-interface RecitalState extends IRecital {
+interface IReactRecital extends IRecital {
   addTrack: (track: ITrack) => void
   addNote: (note: Note, trackIndex: number) => void
 }
 
 type RecitalStore = ReturnType<typeof createRecitalStore>
 
-// TODO type
-const createRecitalStore = (options?: RecitalOptions) => {
+const createRecitalStore = (
+  options?: RecitalOptions
+): ReturnType<ReturnType<typeof createStore<IReactRecital>>> => {
   const recital = new Recital(options)
-  return createStore<RecitalState>()((set, get) => ({
+  return createStore<IReactRecital>((set, get) => ({
     player: recital.player,
     getSong: () => recital.getSong(),
     start: () => {
@@ -76,13 +77,12 @@ export const RecitalProvider: FC<RecitalProviderProps> = ({
   )
 }
 
-// TODO type
-export const useRecital = <U,>(selector: (state: any) => U): U => {
+export const useRecital = (): IReactRecital => {
   const store = useContext(RecitalContext)
 
   if (store == null) {
     throw new Error('Missing RecitalContext.Provider in the tree')
   }
 
-  return useStore(store, selector)
+  return useStore(store, (state) => state)
 }
