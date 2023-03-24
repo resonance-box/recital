@@ -13,6 +13,7 @@ export interface ISong {
   getTrack: (id: string) => ITrack
   findTrack: (id: string) => ITrack | undefined
   addTrack: (track: ITrack) => void
+  deleteTrack: (id: string) => void
   addTimeSignature: (timeSignature: TimeSignature) => void
 }
 
@@ -56,6 +57,14 @@ export class Song implements ISong {
 
   addTrack(track: ITrack): void {
     this.tracks.push(track)
+  }
+
+  deleteTrack(id: string): void {
+    const index = this.tracks.findIndex((track) => track.id === id)
+    if (index === -1) {
+      throw new Error()
+    }
+    this.tracks.splice(index, 1)
   }
 
   addTimeSignature(timeSignature: TimeSignature): void {

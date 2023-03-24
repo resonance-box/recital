@@ -57,6 +57,12 @@ const createRecitalStore = (
       })
       get().setSong(song)
     },
+    deleteTrack: (id: string) => {
+      const song = produce(get().getSong(), (draft) => {
+        draft.deleteTrack(id)
+      })
+      get().setSong(song)
+    },
     getNotes: (trackId: string) => {
       return get().getTrack(trackId).sortedNotes
     },
@@ -72,6 +78,12 @@ const createRecitalStore = (
     addNotes: (trackId: string, notes: Note[]) => {
       const song = produce(get().getSong(), (draft) => {
         draft.getTrack(trackId).addNotes(notes)
+      })
+      get().setSong(song)
+    },
+    deleteNote: (trackId: string, noteId: string) => {
+      const song = produce(get().getSong(), (draft) => {
+        draft.getTrack(trackId).deleteNote(noteId)
       })
       get().setSong(song)
     },

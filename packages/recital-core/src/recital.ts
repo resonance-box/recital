@@ -14,10 +14,12 @@ export interface IRecital {
   findTrack: (id: string) => ITrack | undefined
   getTrack: (id: string) => ITrack
   addTrack: (track: ITrack) => void
+  deleteTrack: (id: string) => void
   getNotes: (trackId: string) => Note[]
   findNote: (trackId: string, noteId: string) => Note | undefined
   addNote: (trackId: string, note: Note) => void
   addNotes: (trackId: string, notes: Note[]) => void
+  deleteNote: (trackId: string, noteId: string) => void
 }
 
 export interface RecitalOptions
@@ -68,6 +70,10 @@ export class Recital implements IRecital {
     this.player.song.addTrack(track)
   }
 
+  deleteTrack(id: string): void {
+    this.player.song.deleteTrack(id)
+  }
+
   getNotes(trackId: string): Note[] {
     return this.getTrack(trackId).sortedNotes
   }
@@ -82,5 +88,9 @@ export class Recital implements IRecital {
 
   addNotes(trackId: string, notes: Note[]): void {
     this.getTrack(trackId).addNotes(notes)
+  }
+
+  deleteNote(trackId: string, noteId: string): void {
+    this.getTrack(trackId).deleteNote(noteId)
   }
 }

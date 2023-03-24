@@ -8,6 +8,7 @@ export interface ITrack extends IHasStringId {
   findNote: (id: string) => Note | undefined
   addNote: (note: Note) => void
   addNotes: (notes: Note[]) => void
+  deleteNote: (id: string) => void
 }
 
 interface TrackOptions
@@ -46,5 +47,13 @@ export class Track implements ITrack {
 
   addNotes(notes: Note[]): void {
     this.notes.push(...notes)
+  }
+
+  deleteNote(id: string): void {
+    const index = this.notes.findIndex((note) => note.id === id)
+    if (index === -1) {
+      throw new Error()
+    }
+    this.notes.splice(index, 1)
   }
 }
