@@ -11,13 +11,46 @@ import {
   createEmptyTrack,
   createNote,
   createTwinkleTwinkleSong,
+  type ITrack,
 } from '@resonance-box/recital-core'
 import { type FC } from 'react'
 
 const sf2URL = new URL('./assets/GeneralUser GS v1.471.sf2', import.meta.url)
 
-export const Main: FC = () => {
-  const { start, stop, getSong, addTrack, addNote } = useRecital()
+interface TrackProps {
+  track: ITrack
+}
+
+const Track: FC<TrackProps> = ({ track }) => {
+  const { addNote } = useRecital()
+
+  return (
+    <Stack>
+      <Button
+        color="green"
+        onClick={() =>
+          addNote(
+            track.id,
+            createNote(
+              new Ticks(0),
+              new Ticks(480),
+              new NoteNumber(65),
+              new Velocity(80)
+            )
+          )
+        }
+      >
+        addNote
+      </Button>
+      <Code key={track.id} block>
+        {JSON.stringify(track, null, 2)}
+      </Code>
+    </Stack>
+  )
+}
+
+const Main: FC = () => {
+  const { start, stop, getSong, addTrack } = useRecital()
 
   const song = getSong()
   console.log('song:', song)
@@ -37,29 +70,10 @@ export const Main: FC = () => {
         <Button color="green" onClick={() => addTrack(createEmptyTrack())}>
           addTrack
         </Button>
-        <Button
-          color="green"
-          onClick={() =>
-            addNote(
-              createNote(
-                new Ticks(0),
-                new Ticks(480),
-                new NoteNumber(65),
-                new Velocity(80)
-              ),
-              0
-            )
-          }
-        >
-          addNote
-        </Button>
       </Group>
-
       <Flex gap="md">
-        {song.tracks.map((track, index) => (
-          <Code key={index} block>
-            {JSON.stringify(track, null, 2)}
-          </Code>
+        {song.getTracks().map((track) => (
+          <Track key={track.id} track={track} />
         ))}
       </Flex>
     </Stack>

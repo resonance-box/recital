@@ -22,40 +22,58 @@ interface RecitalOptions
     song: ISong
   }> {}
 
-interface IReactRecital extends IRecital {
-  addTrack: (track: ITrack) => void
-  addNote: (note: Note, trackIndex: number) => void
-}
-
 type RecitalStore = ReturnType<typeof createRecitalStore>
 
 const createRecitalStore = (
   options?: RecitalOptions
-): ReturnType<ReturnType<typeof createStore<IReactRecital>>> => {
+): ReturnType<ReturnType<typeof createStore<IRecital>>> => {
   const recital = new Recital(options)
-  return createStore<IReactRecital>((set, get) => ({
+  return createStore<IRecital>((set, get) => ({
     player: recital.player,
-    getSong: () => recital.getSong(),
     start: () => {
-      recital.start()
+      get().player.start()
     },
     stop: () => {
-      recital.stop()
+      get().player.stop()
+    },
+    getSong: () => get().player.song,
+    setSong: (song: ISong) => {
+      const player = get().player
+      player.song = song
+      set({ player })
+    },
+    getTracks: () => {
+      return get().getSong().getTracks()
+    },
+    findTrack: (id: string) => {
+      return get().getSong().findTrack(id)
+    },
+    getTrack: (id: string) => {
+      return get().getSong().getTrack(id)
     },
     addTrack: (track: ITrack) => {
-      const song = produce(get().getSong(), (draft) => draft.addTrack(track))
-      const player = get().player
-      player.song = song
-      set({ player })
-    },
-    addNote: (note: Note, trackIndex: number) => {
       const song = produce(get().getSong(), (draft) => {
-        draft.tracks[trackIndex].addNote(note)
+        draft.addTrack(track)
       })
-
-      const player = get().player
-      player.song = song
-      set({ player })
+      get().setSong(song)
+    },
+    getNotes: (trackId: string) => {
+      return get().getTrack(trackId).sortedNotes
+    },
+    findNote: (trackId: string, noteId: string) => {
+      return get().getTrack(trackId).findNote(noteId)
+    },
+    addNote: (trackId: string, note: Note) => {
+      const song = produce(get().getSong(), (draft) => {
+        draft.getTrack(trackId).addNote(note)
+      })
+      get().setSong(song)
+    },
+    addNotes: (trackId: string, notes: Note[]) => {
+      const song = produce(get().getSong(), (draft) => {
+        draft.getTrack(trackId).addNotes(notes)
+      })
+      get().setSong(song)
     },
   }))
 }
@@ -77,7 +95,7 @@ export const RecitalProvider: FC<RecitalProviderProps> = ({
   )
 }
 
-export const useRecital = (): IReactRecital => {
+export const useRecital = (): IRecital => {
   const store = useContext(RecitalContext)
 
   if (store == null) {

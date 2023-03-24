@@ -51,7 +51,7 @@ export class Player implements IPlayer {
         )
       )
 
-      this.song.tracks.forEach((track) => {
+      this.song.getTracks().forEach((track) => {
         const { sortedNotes } = track
 
         const events = disassembleNotes(sortedNotes)

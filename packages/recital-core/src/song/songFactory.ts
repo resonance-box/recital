@@ -39,7 +39,7 @@ export const createTwinkleTwinkleSong = (): ISong => {
     { ticks: 14 * ppq, durationTicks: 2 * ppq, noteNumber: 60, velocity },
   ]
 
-  const track = song.tracks[0]
+  const track = song.getTracks()[0]
   notes.forEach(({ ticks, durationTicks, noteNumber, velocity }) => {
     track.addNote(
       createNote(
