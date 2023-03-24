@@ -1,4 +1,5 @@
 import {
+  BPM,
   RecitalImpl,
   type Note,
   type Recital,
@@ -35,6 +36,12 @@ const createRecitalStore = (
     },
     stop: () => {
       get().player.stop()
+    },
+    getBpm: () => {
+      return get().player.getBpm().value
+    },
+    setBpm: (bpm: number) => {
+      get().player.setBpm(new BPM(bpm))
     },
     getSong: () => get().player.song,
     setSong: (song: Song) => {

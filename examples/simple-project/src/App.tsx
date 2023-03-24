@@ -1,4 +1,14 @@
-import { Button, Center, Code, Flex, Group, Stack, Title } from '@mantine/core'
+import {
+  Button,
+  Center,
+  Code,
+  Container,
+  Flex,
+  Group,
+  NumberInput,
+  Stack,
+  Title,
+} from '@mantine/core'
 import {
   RecitalProvider,
   useRecital,
@@ -61,9 +71,26 @@ const TrackUI: FC<TrackUIProps> = ({ track }) => {
   )
 }
 
+const RandomTempo: FC = () => {
+  const { setBpm } = useRecital()
+  return (
+    <Button onClick={() => setBpm(getRandomInt(300, 60))}>
+      Set Random Tempo
+    </Button>
+  )
+}
+
 const Main: FC = () => {
-  const { start, stop, getSong, getTracks, addTrack, deleteTrack } =
-    useRecital()
+  const {
+    start,
+    stop,
+    getSong,
+    getTracks,
+    addTrack,
+    deleteTrack,
+    getBpm,
+    setBpm,
+  } = useRecital()
   const song = getSong()
   const tracks = getTracks()
   const randomTrack = tracks[getRandomInt(tracks.length)]
@@ -81,6 +108,20 @@ const Main: FC = () => {
           stop
         </Button>
       </Group>
+      <Container>
+        <Flex align="end" gap="md">
+          <NumberInput
+            value={getBpm()}
+            onChange={(tempo) => {
+              tempo !== '' && setBpm(tempo)
+            }}
+            label="Tempo"
+            min={1}
+            max={1000}
+          />
+          <RandomTempo />
+        </Flex>
+      </Container>
       <Group position="center">
         <Button color="green" onClick={() => addTrack(createEmptyTrack())}>
           Add Track

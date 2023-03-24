@@ -18,6 +18,8 @@ export interface Player {
   song: Song
   start: () => void
   stop: () => void
+  getBpm: () => BPM
+  setBpm: (bpm: BPM) => void
 }
 
 export interface PlayerOptions
@@ -102,5 +104,13 @@ export class PlayerImpl implements Player {
   stop(): void {
     this.scheduledTicks = new Ticks(0)
     this.transport.stop()
+  }
+
+  getBpm(): BPM {
+    return this.transport.bpm
+  }
+
+  setBpm(bpm: BPM): void {
+    this.transport.bpm = bpm
   }
 }

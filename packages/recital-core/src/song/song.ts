@@ -9,12 +9,12 @@ export interface Song {
   readonly ppq: PPQ
   readonly timeSignatures: TimeSignature[]
   endOfSongTicks: Ticks
+  addTimeSignature: (timeSignature: TimeSignature) => void
   getTracks: () => Track[]
   getTrack: (id: string) => Track
   findTrack: (id: string) => Track | undefined
   addTrack: (track: Track) => void
   deleteTrack: (id: string) => void
-  addTimeSignature: (timeSignature: TimeSignature) => void
 }
 
 export interface SongOptions
@@ -38,6 +38,10 @@ export class SongImpl implements Song {
     this.tracks = options?.tracks ?? []
     this.timeSignatures = options?.timeSignatures ?? []
     this.endOfSongTicks = options?.endOfSongTicks ?? new Ticks(0)
+  }
+
+  addTimeSignature(timeSignature: TimeSignature): void {
+    this.timeSignatures.push(timeSignature)
   }
 
   getTracks(): Track[] {
@@ -66,9 +70,5 @@ export class SongImpl implements Song {
       throw new Error()
     }
     this.tracks.splice(index, 1)
-  }
-
-  addTimeSignature(timeSignature: TimeSignature): void {
-    this.timeSignatures.push(timeSignature)
   }
 }
