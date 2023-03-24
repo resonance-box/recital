@@ -1,4 +1,4 @@
-import produce from 'immer'
+import produce, { immerable } from 'immer'
 import { type Note, type TimeSignature } from '../events'
 import { PPQ, Ticks } from '../shared'
 import { type ITrack } from '../track'
@@ -24,6 +24,8 @@ type SongOptions = Partial<{
 }>
 
 export class Song implements ISong {
+  [immerable] = true
+
   readonly ppq: PPQ
   readonly tracks: ITrack[]
   readonly timeSignatures: TimeSignature[]

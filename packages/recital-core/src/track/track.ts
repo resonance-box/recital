@@ -1,3 +1,4 @@
+import { immerable } from 'immer'
 import { sortBy } from 'lodash'
 import { type Note } from '../events'
 
@@ -13,6 +14,8 @@ interface TrackOptions
   }> {}
 
 export class Track implements ITrack {
+  [immerable] = true
+
   private readonly notes: Note[]
 
   constructor(options?: TrackOptions) {

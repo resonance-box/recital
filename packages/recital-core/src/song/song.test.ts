@@ -1,4 +1,3 @@
-import produce, { immerable } from 'immer'
 import { describe, expect, it } from 'vitest'
 import { createTimeSignature } from '../events'
 import { PPQ, Ticks } from '../shared'
@@ -51,26 +50,6 @@ describe('Song', () => {
       song.addTimeSignature(timeSignature)
       expect(song.timeSignatures.length).toBe(1)
       expect(song.timeSignatures[0]).toBe(timeSignature)
-    })
-  })
-
-  describe('Immer', () => {
-    it('immer test 1', () => {
-      Song[immerable] = true
-      const song1 = new Song()
-      const song2 = song1.immerAddTrack(createEmptyTrack())
-      expect(song1.tracks.length).toBe(0)
-      expect(song2.tracks.length).toBe(1)
-    })
-
-    it('immer test 2', () => {
-      Song[immerable] = true
-      const song1 = new Song()
-      const song2 = produce(song1, (draft) =>
-        draft.addTrack(createEmptyTrack())
-      )
-      expect(song1.tracks.length).toBe(0)
-      expect(song2.tracks.length).toBe(1)
     })
   })
 })

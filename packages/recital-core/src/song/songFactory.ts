@@ -1,4 +1,3 @@
-import { immerable } from 'immer'
 import {
   createNote,
   createTimeSignature,
@@ -11,9 +10,6 @@ import { DEFAULT_PPQ, Song, type ISong } from './song'
 
 export const createDefaultSong = (): ISong => {
   const track = createEmptyTrack()
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  track[immerable] = true
   return new Song({
     tracks: [track],
     timeSignatures: [createTimeSignature(new Ticks(0), 4, 4)],
@@ -55,6 +51,5 @@ export const createTwinkleTwinkleSong = (): ISong => {
     )
   })
 
-  song.addTrack(track)
   return song
 }
