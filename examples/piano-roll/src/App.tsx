@@ -4,26 +4,36 @@ import {
   useRecital,
   useSoundFont2Synth,
 } from '@resonance-box/react-recital'
+import { PianoRoll } from '@resonance-box/react-recital-ui'
 import { createTwinkleTwinkleSong } from '@resonance-box/recital-core'
 import { IconPlayerPlayFilled, IconPlayerStopFilled } from '@tabler/icons-react'
 import { useState, type FC } from 'react'
+import { useRaf } from 'rooks'
 
 const Transport: FC = () => {
-  const { start, stop } = useRecital()
+  const [currentTicks, setCurrentTicks] = useState(0)
+  const { start, stop, getCurrentTicks } = useRecital()
+
+  useRaf(() => {
+    setCurrentTicks(getCurrentTicks())
+  }, true)
 
   return (
-    <Group>
-      <Button leftIcon={<IconPlayerPlayFilled size="1rem" />} onClick={start}>
-        PLAY
-      </Button>
-      <Button
-        color="red"
-        leftIcon={<IconPlayerStopFilled size="1rem" />}
-        onClick={stop}
-      >
-        STOP
-      </Button>
-    </Group>
+    <Stack>
+      Current Ticks: {currentTicks}
+      <Group>
+        <Button leftIcon={<IconPlayerPlayFilled size="1rem" />} onClick={start}>
+          PLAY
+        </Button>
+        <Button
+          color="red"
+          leftIcon={<IconPlayerStopFilled size="1rem" />}
+          onClick={stop}
+        >
+          STOP
+        </Button>
+      </Group>
+    </Stack>
   )
 }
 
@@ -34,6 +44,7 @@ const PianoRollContainer: FC = () => {
   return (
     <RecitalProvider options={{ song: createTwinkleTwinkleSong(), synth }}>
       <Transport />
+      <PianoRoll />
     </RecitalProvider>
   )
 }

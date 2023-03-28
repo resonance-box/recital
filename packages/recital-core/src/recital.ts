@@ -9,6 +9,8 @@ export interface Recital {
   readonly player: Player
   start: () => void
   stop: () => void
+  getCurrentTicks: () => number
+  getCurrentSeconds: () => number
   getBpm: () => number
   setBpm: (bpm: number) => void
   getSong: () => Song
@@ -47,6 +49,14 @@ export class RecitalImpl implements Recital {
 
   stop(): void {
     this.player.stop()
+  }
+
+  getCurrentTicks(): number {
+    return this.player.getCurrentTicks().value
+  }
+
+  getCurrentSeconds(): number {
+    return this.player.getCurrentSeconds().value
   }
 
   getBpm(): number {

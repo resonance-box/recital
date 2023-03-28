@@ -24,5 +24,8 @@ module.exports = defineConfig({
       formats: ['es'],
       fileName: getPackageName(),
     },
+    rollupOptions: {
+      external: ['sf2-synth-audio-worklet'],
+    },
   },
 })

@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest'
 import { NoteNumber, Velocity, createNote } from '../events'
 import { Ticks } from '../shared'
-import { Track } from './track'
+import { TrackImpl } from './track'
 
 describe('Track', () => {
   describe('constructor', () => {
     it('should create a new Track instance with empty notes and zero endOfTrackTicks if no options are passed', () => {
-      const track = new Track()
+      const track = new TrackImpl()
       expect(track.sortedNotes).toEqual([])
     })
 
@@ -27,14 +27,14 @@ describe('Track', () => {
       ]
       const endOfTrackTicks = new Ticks(100)
       const options = { notes, endOfTrackTicks }
-      const track = new Track(options)
+      const track = new TrackImpl(options)
       expect(track.sortedNotes).toEqual(notes)
     })
   })
 
   describe('addNote', () => {
     it('should add a new note to the notes array', () => {
-      const track = new Track()
+      const track = new TrackImpl()
       const note = createNote(
         new Ticks(0),
         new Ticks(100),
@@ -62,7 +62,7 @@ describe('Track', () => {
           new Velocity(100)
         ),
       ]
-      const track = new Track()
+      const track = new TrackImpl()
       track.addNotes(notes)
       expect(track.sortedNotes).toEqual(notes)
     })

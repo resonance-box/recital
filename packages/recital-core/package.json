@@ -29,7 +29,7 @@
     "@paralleldrive/cuid2": "^2.2.0",
     "immer": "^9.0.21",
     "lodash": "^4.17.21",
-    "sf2-synth-audio-worklet": "^0.0.6"
+    "sf2-synth-audio-worklet": "^0.0.7"
   },
   "repository": {
     "type": "git",

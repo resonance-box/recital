@@ -42,6 +42,12 @@ const createRecitalStore = (
       stop: () => {
         get().player.stop()
       },
+      getCurrentTicks: () => {
+        return get().player.getCurrentTicks().value
+      },
+      getCurrentSeconds: () => {
+        return get().player.getCurrentSeconds().value
+      },
       getBpm: () => {
         return get().player.getBpm().value
       },

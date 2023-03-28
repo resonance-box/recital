@@ -17,6 +17,8 @@ export interface Player {
   song: Song
   start: () => void
   stop: () => void
+  getCurrentTicks: () => Ticks
+  getCurrentSeconds: () => Seconds
   getBpm: () => BPM
   setBpm: (bpm: BPM) => void
   onChangeBpm?: (bpm: BPM) => void
@@ -105,6 +107,14 @@ export class PlayerImpl implements Player {
   stop(): void {
     this.scheduledTicks = new Ticks(0)
     this.transport.stop()
+  }
+
+  getCurrentTicks(): Ticks {
+    return this.transport.ticks
+  }
+
+  getCurrentSeconds(): Seconds {
+    return this.transport.seconds
   }
 
   getBpm(): BPM {
