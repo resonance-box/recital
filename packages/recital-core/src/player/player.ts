@@ -5,6 +5,7 @@ import {
   millisecondsToTicks,
   ticksToSeconds,
   type BPM,
+  type PPQ,
 } from '../shared'
 import { type Song } from '../song'
 import { type Synth } from '../synth'
@@ -21,6 +22,8 @@ export interface Player {
   getCurrentSeconds: () => Seconds
   getBpm: () => BPM
   setBpm: (bpm: BPM) => void
+  getPpq: () => PPQ
+  setPpq: (ppq: PPQ) => void
   onChangeBpm?: (bpm: BPM) => void
 }
 
@@ -124,5 +127,13 @@ export class PlayerImpl implements Player {
   setBpm(bpm: BPM): void {
     this.transport.bpm = bpm
     this.onChangeBpm?.(bpm)
+  }
+
+  getPpq(): PPQ {
+    return this.transport.ppq
+  }
+
+  setPpq(ppq: PPQ): void {
+    this.transport.ppq = ppq
   }
 }

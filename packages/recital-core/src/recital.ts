@@ -1,6 +1,6 @@
 import { type Note } from './events'
 import { createPlayer, type Player } from './player'
-import { BPM } from './shared'
+import { BPM, PPQ } from './shared'
 import { createDefaultSong, type Song } from './song'
 import { type Synth } from './synth'
 import { type Track } from './track'
@@ -13,6 +13,8 @@ export interface Recital {
   getCurrentSeconds: () => number
   getBpm: () => number
   setBpm: (bpm: number) => void
+  getPpq: () => number
+  setPpq: (ppq: number) => void
   getSong: () => Song
   setSong: (song: Song) => void
   getTracks: () => Track[]
@@ -65,6 +67,14 @@ export class RecitalImpl implements Recital {
 
   setBpm(bpm: number): void {
     this.player.setBpm(new BPM(bpm))
+  }
+
+  getPpq(): number {
+    return this.player.getPpq().value
+  }
+
+  setPpq(ppq: number): void {
+    this.player.setPpq(new PPQ(ppq))
   }
 
   getSong(): Song {

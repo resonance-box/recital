@@ -1,2 +1,6 @@
-export * from './recital'
+export { RecitalProvider } from './RecitalProvider'
+export { useRecital } from './RecitalProviderContext'
+export * from './TestProvider'
+// export { RecitalProvider, useRecital } from './recital'
+export { Transport } from './recital'
 export * from './synth'

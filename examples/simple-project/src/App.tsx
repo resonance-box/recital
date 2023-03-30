@@ -20,7 +20,7 @@ import {
   createTwinkleTwinkleSong,
   type Track,
 } from '@resonance-box/recital-core'
-import { type FC } from 'react'
+import { useState, type FC } from 'react'
 
 const sf2URL = new URL('./assets/GeneralUser GS v1.471.sf2', import.meta.url)
 
@@ -59,7 +59,9 @@ const TrackUI: FC<TrackUIProps> = ({ track }) => {
         <Button
           color="green"
           disabled={notes.length === 0}
-          onClick={() => deleteNote(track.id, randomNote.id)}
+          onClick={() => {
+            deleteNote(track.id, randomNote.id)
+          }}
         >
           Delete Random Note
         </Button>
@@ -74,7 +76,11 @@ const TrackUI: FC<TrackUIProps> = ({ track }) => {
 const RandomTempo: FC = () => {
   const { setBpm } = useRecital()
   return (
-    <Button onClick={() => setBpm(getRandomInt(300, 60))}>
+    <Button
+      onClick={() => {
+        setBpm(getRandomInt(300, 60))
+      }}
+    >
       Set Random Tempo
     </Button>
   )
@@ -98,10 +104,7 @@ const Main: FC = () => {
   console.log('song:', song)
 
   return (
-    <Stack>
-      <Center>
-        <Title>Vite + React + Recital</Title>
-      </Center>
+    <>
       <Group position="center">
         <Button onClick={start}>start</Button>
         <Button color="red" onClick={stop}>
@@ -123,13 +126,20 @@ const Main: FC = () => {
         </Flex>
       </Container>
       <Group position="center">
-        <Button color="green" onClick={() => addTrack(createEmptyTrack())}>
+        <Button
+          color="green"
+          onClick={() => {
+            addTrack(createEmptyTrack())
+          }}
+        >
           Add Track
         </Button>
         <Button
           color="green"
           disabled={tracks.length === 0}
-          onClick={() => deleteTrack(randomTrack.id)}
+          onClick={() => {
+            deleteTrack(randomTrack.id)
+          }}
         >
           Delete Random Track
         </Button>
@@ -139,16 +149,40 @@ const Main: FC = () => {
           <TrackUI key={track.id} track={track} />
         ))}
       </Flex>
-    </Stack>
+    </>
   )
 }
 
-export const App: FC = () => {
+const Wrapper: FC = () => {
   const { synth } = useSoundFont2Synth(sf2URL)
-
   return (
     <RecitalProvider options={{ synth, song: createTwinkleTwinkleSong() }}>
       <Main />
     </RecitalProvider>
+  )
+}
+
+export const App: FC = () => {
+  const [started, setStarted] = useState(false)
+
+  return (
+    <Stack>
+      <Center>
+        <Title>Vite + React + Recital</Title>
+      </Center>
+      {started ? (
+        <Wrapper />
+      ) : (
+        <Container>
+          <Button
+            onClick={() => {
+              setStarted(true)
+            }}
+          >
+            START
+          </Button>
+        </Container>
+      )}
+    </Stack>
   )
 }

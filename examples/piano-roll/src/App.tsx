@@ -1,10 +1,10 @@
 import { Button, Container, Group, Stack, Text, Title } from '@mantine/core'
 import {
   RecitalProvider,
+  Transport as RecitalTransport,
   useRecital,
   useSoundFont2Synth,
 } from '@resonance-box/react-recital'
-import { PianoRoll } from '@resonance-box/react-recital-ui'
 import { createTwinkleTwinkleSong } from '@resonance-box/recital-core'
 import { IconPlayerPlayFilled, IconPlayerStopFilled } from '@tabler/icons-react'
 import { useState, type FC } from 'react'
@@ -42,9 +42,12 @@ const PianoRollContainer: FC = () => {
     new URL('./assets/GeneralUser GS v1.471.sf2', import.meta.url)
   )
   return (
-    <RecitalProvider options={{ song: createTwinkleTwinkleSong(), synth }}>
+    <RecitalProvider
+      initialConfig={{ song: createTwinkleTwinkleSong(), synth }}
+    >
       <Transport />
-      <PianoRoll />
+      <RecitalTransport />
+      {/* <PianoRoll /> */}
     </RecitalProvider>
   )
 }
