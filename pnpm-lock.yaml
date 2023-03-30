@@ -95,13 +95,14 @@ importers:
   packages/react-recital:
     specifiers:
       '@resonance-box/recital-core': workspace:^0.0.0
+      '@types/lodash': ^4.14.191
       '@types/react': ^18.0.29
       '@types/react-dom': ^18.0.11
       '@vitejs/plugin-react-swc': ^3.2.0
       immer: ^9.0.21
+      lodash: ^4.17.21
       react: ^18.2.0
       react-dom: ^18.2.0
-      rooks: ^7.9.0
       typescript: ^4.9.5
       vite: ^4.2.1
       vite-plugin-dts: ^2.1.0
@@ -109,11 +110,12 @@ importers:
     dependencies:
       '@resonance-box/recital-core': link:../recital-core
       immer: 9.0.21
+      lodash: 4.17.21
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      rooks: 7.9.0_biqbaboplfbrettd7655fr4n2y
       zustand: 4.3.6_immer@9.0.21+react@18.2.0
     devDependencies:
+      '@types/lodash': 4.14.191
       '@types/react': 18.0.29
       '@types/react-dom': 18.0.11
       '@vitejs/plugin-react-swc': 3.2.0_vite@4.2.1

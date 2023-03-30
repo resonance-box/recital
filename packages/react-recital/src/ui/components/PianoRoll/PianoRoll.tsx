@@ -1,6 +1,7 @@
-import { useRecital } from '@resonance-box/react-recital'
 import { type FC } from 'react'
+import { useRecital } from '../../../RecitalProviderContext'
 import { Background } from './Background'
+import { Notes } from './Notes'
 
 export const PianoRoll: FC = () => {
   const width = 100000
@@ -9,15 +10,9 @@ export const PianoRoll: FC = () => {
 
   const recital = useRecital()
 
-  if (recital == null) {
-    return null
-  }
-
   const { getTracks, getNotes } = recital
   const track = getTracks()[0]
   const notes = getNotes(track.id)
-
-  console.log('track:', track, ', notes:', notes)
 
   return (
     <div
@@ -41,7 +36,7 @@ export const PianoRoll: FC = () => {
         }}
       >
         <Background width={width} />
-        {/* <Notes notes={notes} /> */}
+        <Notes notes={notes} />
       </div>
     </div>
   )

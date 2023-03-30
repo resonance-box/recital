@@ -8,14 +8,14 @@ import {
   type Track,
 } from '@resonance-box/recital-core'
 import produce from 'immer'
-import { createContext as createReactContext, useContext } from 'react'
+import { createContext, useContext } from 'react'
 import { createStore, useStore } from 'zustand'
 import { type InitialConfigType } from './RecitalProvider'
 
 export interface RecitalContextType
   extends ReturnType<ReturnType<typeof createStore<Recital>>> {}
 
-export const RecitalContext = createReactContext<RecitalContextType>(
+export const RecitalContext = createContext<RecitalContextType>(
   createRecitalStore(new RecitalImpl())
 )
 

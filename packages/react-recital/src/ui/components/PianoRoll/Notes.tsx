@@ -1,6 +1,6 @@
-import { useRecital } from '@resonance-box/react-recital'
 import { type Note as INote } from '@resonance-box/recital-core'
 import { type FC } from 'react'
+import { useRecital } from '../../../RecitalProviderContext'
 
 interface NoteProps {
   note: INote
@@ -12,6 +12,7 @@ const Note: FC<NoteProps> = ({ note, beatWidth }) => {
   return (
     <div
       style={{
+        position: 'absolute',
         backgroundColor: 'rgb(14 165 233)',
         left: `${(note.ticks.value * beatWidth) / (480 * 4)}px`,
         top: `${(128 - note.noteNumber.value - 1) * keyHeight}px`,
@@ -37,8 +38,6 @@ export const Notes: FC<NotesProps> = ({ notes }) => {
   const pixelsPerTick = 0.05
   const ppq = getPpq()
   const beatWidth = pixelsPerTick * ppq * 4
-
-  console.log('notes:', notes)
 
   return (
     <>

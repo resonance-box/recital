@@ -1,10 +1,11 @@
 import { Button, Container, Group, Stack, Text, Title } from '@mantine/core'
 import {
+  PianoRoll,
   RecitalProvider,
-  Transport as RecitalTransport,
   useRecital,
   useSoundFont2Synth,
 } from '@resonance-box/react-recital'
+
 import { createTwinkleTwinkleSong } from '@resonance-box/recital-core'
 import { IconPlayerPlayFilled, IconPlayerStopFilled } from '@tabler/icons-react'
 import { useState, type FC } from 'react'
@@ -46,8 +47,7 @@ const PianoRollContainer: FC = () => {
       initialConfig={{ song: createTwinkleTwinkleSong(), synth }}
     >
       <Transport />
-      <RecitalTransport />
-      {/* <PianoRoll /> */}
+      <PianoRoll />
     </RecitalProvider>
   )
 }

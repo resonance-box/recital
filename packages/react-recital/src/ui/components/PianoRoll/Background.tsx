@@ -12,12 +12,7 @@ interface BackgroundProps {
 }
 
 export const Background: FC<BackgroundProps> = ({ width }) => {
-  // const { getPpq } = useRecital()
-
-  // const ppq = getPpq()
   const keyHeight = 16
-  // const pixelsPerTick = 0.05
-  // const beatWidth = pixelsPerTick * ppq * 4
   const height = keyHeight * 128
 
   return (

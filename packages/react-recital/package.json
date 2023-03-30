@@ -19,12 +19,13 @@
   "dependencies": {
     "@resonance-box/recital-core": "workspace:^0.0.0",
     "immer": "^9.0.21",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rooks": "^7.9.0",
     "zustand": "^4.3.6"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.191",
     "@types/react": "^18.0.29",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react-swc": "^3.2.0",
