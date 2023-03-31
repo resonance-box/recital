@@ -8,20 +8,23 @@ import {
 
 import { createTwinkleTwinkleSong } from '@resonance-box/recital-core'
 import { IconPlayerPlayFilled, IconPlayerStopFilled } from '@tabler/icons-react'
-import { useState, type FC } from 'react'
+import { useRef, useState, type FC } from 'react'
 import { useRaf } from 'rooks'
 
 const Transport: FC = () => {
-  const [currentTicks, setCurrentTicks] = useState(0)
+  const ref = useRef<HTMLDivElement | null>(null)
   const { start, stop, getCurrentTicks } = useRecital()
 
   useRaf(() => {
-    setCurrentTicks(getCurrentTicks())
+    if (ref.current != null) {
+      ref.current.innerText = getCurrentTicks().toString()
+    }
   }, true)
 
   return (
     <Stack>
-      Current Ticks: {currentTicks}
+      <Text>Current Ticks: </Text>
+      <Text ref={ref} />
       <Group>
         <Button leftIcon={<IconPlayerPlayFilled size="1rem" />} onClick={start}>
           PLAY

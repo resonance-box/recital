@@ -2,6 +2,7 @@ import { type FC } from 'react'
 import { useRecital } from '../../../RecitalProviderContext'
 import { Background } from './Background'
 import { Notes } from './Notes'
+import { Playhead } from './Playhead'
 
 export const PianoRoll: FC = () => {
   const width = 100000
@@ -37,6 +38,7 @@ export const PianoRoll: FC = () => {
       >
         <Background width={width} />
         <Notes notes={notes} />
+        <Playhead />
       </div>
     </div>
   )
