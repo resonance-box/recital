@@ -6,7 +6,7 @@ import { type Track } from '../track'
 export const DEFAULT_PPQ = 480
 
 export interface Song {
-  readonly ppq: PPQ
+  ppq: PPQ
   readonly timeSignatures: TimeSignature[]
   endOfSongTicks: Ticks
   addTimeSignature: (timeSignature: TimeSignature) => void
@@ -28,7 +28,7 @@ export interface SongOptions
 export class SongImpl implements Song {
   [immerable] = true
 
-  readonly ppq: PPQ
+  ppq: PPQ
   readonly tracks: Track[]
   readonly timeSignatures: TimeSignature[]
   endOfSongTicks: Ticks

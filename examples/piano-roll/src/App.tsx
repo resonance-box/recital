@@ -6,8 +6,9 @@ import {
 } from '@resonance-box/react-recital'
 
 import {
+  createSongFromMidi,
   createSoundFont2Synth,
-  createTwinkleTwinkleSong,
+  type Song,
 } from '@resonance-box/recital-core'
 import { IconPlayerPlayFilled, IconPlayerStopFilled } from '@tabler/icons-react'
 import { useRef, useState, type FC } from 'react'
@@ -44,13 +45,27 @@ const Transport: FC = () => {
 }
 
 const PianoRollContainer: FC = () => {
+  const [song, setSong] = useState<Song | undefined>(undefined)
+  const [synth] = useState(
+    createSoundFont2Synth(
+      new URL('./assets/GeneralUser GS v1.471.sf2', import.meta.url)
+    )
+  )
+
+  if (song === undefined) {
+    createSongFromMidi(new URL('./assets/bach_846.mid', import.meta.url)).then(
+      (song) => {
+        setSong(song)
+      }
+    )
+    return null
+  }
+
   return (
     <RecitalProvider
       initialConfig={{
-        song: createTwinkleTwinkleSong(),
-        synth: createSoundFont2Synth(
-          new URL('./assets/GeneralUser GS v1.471.sf2', import.meta.url)
-        ),
+        song,
+        synth,
       }}
     >
       <Transport />

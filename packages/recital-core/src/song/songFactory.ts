@@ -1,6 +1,12 @@
+import { Midi } from '@tonejs/midi'
 import { createNote, createTimeSignature } from '../events'
+import { PPQ } from '../shared'
 import { createEmptyTrack } from '../track'
 import { DEFAULT_PPQ, SongImpl, type Song } from './song'
+
+export const createEmptySong = (): Song => {
+  return new SongImpl()
+}
 
 export const createDefaultSong = (): Song => {
   const track = createEmptyTrack()
@@ -8,6 +14,32 @@ export const createDefaultSong = (): Song => {
     tracks: [track],
     timeSignatures: [createTimeSignature(0, 4, 4)],
   })
+}
+
+export const createSongFromMidi = async (url: string | URL): Promise<Song> => {
+  const midi = await Midi.fromUrl(url.toString())
+  const song = createEmptySong()
+
+  song.ppq = new PPQ(midi.header.ppq)
+
+  for (const midiTrack of midi.tracks) {
+    const track = createEmptyTrack()
+
+    midiTrack.notes.forEach((note) => {
+      track.addNote(
+        createNote(
+          note.ticks,
+          note.durationTicks,
+          note.midi,
+          note.velocity * 127
+        )
+      )
+    })
+
+    song.addTrack(track)
+  }
+
+  return song
 }
 
 export const createTwinkleTwinkleSong = (): Song => {
