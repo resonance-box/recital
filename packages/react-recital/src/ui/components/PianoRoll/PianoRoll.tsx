@@ -31,6 +31,9 @@ export const PianoRoll: FC<PianoRollProps> = ({
         width: viewportWidth !== undefined ? `${viewportWidth}px` : undefined,
         height: `${_viewportHeight}px`,
         overflow: 'scroll',
+        borderRadius: '0.5rem',
+        boxShadow: '0 0 0 1px #000',
+        border: '1px solid #777',
       }}
     >
       <div
