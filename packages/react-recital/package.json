@@ -1,12 +1,30 @@
 {
   "name": "@resonance-box/react-recital",
   "version": "0.0.0",
-  "main": "./dist/react-recital.cjs",
+  "description": "A musical tools for the browser for React",
+  "keywords": [
+    "music",
+    "react"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/resonance-box/recital.git"
+  },
+  "homepage": "https://github.com/resonance-box/recital#readme",
+  "bugs": {
+    "url": "https://github.com/resonance-box/recital/issues"
+  },
+  "license": "MIT",
+  "author": "ot07",
+  "engines": {
+    "node": "18.x",
+    "pnpm": ">=7.26.0"
+  },
+  "packageManager": "pnpm@7.26.0",
   "module": "./dist/react-recital.mjs",
   "types": "./dist/react-recital.d.ts",
   "exports": {
     ".": {
-      "require": "./dist/react-recital.cjs",
       "import": "./dist/react-recital.mjs"
     }
   },
@@ -34,16 +52,6 @@
     "vite": "^4.2.1",
     "vite-plugin-dts": "^2.1.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/resonance-box/recital.git"
-  },
-  "author": "ot07",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/resonance-box/recital/issues"
-  },
-  "homepage": "https://github.com/resonance-box/recital#readme",
   "publishConfig": {
     "access": "public"
   }
