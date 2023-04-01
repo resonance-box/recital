@@ -34,7 +34,6 @@ importers:
       '@mantine/core': ^6.0.4
       '@mantine/hooks': ^6.0.4
       '@resonance-box/react-recital': workspace:^0.0.0
-      '@resonance-box/react-recital-ui': workspace:^0.0.0
       '@resonance-box/recital-core': workspace:^0.0.0
       '@tabler/icons-react': ^2.11.0
       '@types/react': ^18.0.28
@@ -50,7 +49,6 @@ importers:
       '@mantine/core': 6.0.4_ipyndhye6uwdcnqqgtz2dwxwfm
       '@mantine/hooks': 6.0.4_react@18.2.0
       '@resonance-box/react-recital': link:../../packages/react-recital
-      '@resonance-box/react-recital-ui': link:../../packages/react-recital-ui
       '@resonance-box/recital-core': link:../../packages/recital-core
       '@tabler/icons-react': 2.11.0_react@18.2.0
       react: 18.2.0
@@ -157,6 +155,7 @@ importers:
   packages/recital-core:
     specifiers:
       '@paralleldrive/cuid2': ^2.2.0
+      '@tonejs/midi': ^2.0.28
       '@types/lodash': ^4.14.191
       '@types/node': ^18.15.10
       immer: ^9.0.21
@@ -168,6 +167,7 @@ importers:
       vitest: ^0.29.7
     dependencies:
       '@paralleldrive/cuid2': 2.2.0
+      '@tonejs/midi': 2.0.28
       immer: 9.0.21
       lodash: 4.17.21
       sf2-synth-audio-worklet: 0.0.7
@@ -1070,6 +1070,13 @@ packages:
     resolution: {integrity: sha512-KPESQnvHoSpbAdgzDdrSmeZ9AE8fSU12fU3Cag79uXJCUkC8f741fcvPJPsFMDe0S96VSq3mMYF8JnA7a570uQ==}
     dev: false
 
+  /@tonejs/midi/2.0.28:
+    resolution: {integrity: sha512-RII6YpInPsOZ5t3Si/20QKpNqB1lZ2OCFJSOzJxz38YdY/3zqDr3uaml4JuCWkdixuPqP1/TBnXzhQ39csyoVg==}
+    dependencies:
+      array-flatten: 3.0.0
+      midi-file: 1.2.4
+    dev: false
+
   /@ts-morph/common/0.18.1:
     resolution: {integrity: sha512-RVE+zSRICWRsfrkAw5qCAK+4ZH9kwEFv5h0+/YeHTLieWP7F4wWq4JsKFuNWG+fYh/KF+8rAtgdj5zb2mm+DVA==}
     dependencies:
@@ -1394,6 +1401,10 @@ packages:
       call-bind: 1.0.2
       is-array-buffer: 3.0.2
     dev: true
+
+  /array-flatten/3.0.0:
+    resolution: {integrity: sha512-zPMVc3ZYlGLNk4mpK1NzP2wg0ml9t7fUgDsayR5Y5rSzxQilzR9FGu/EH2jQOcKSAeAfWeylyW8juy3OkWRvNA==}
+    dev: false
 
   /array-includes/3.1.6:
     resolution: {integrity: sha512-sgTbLvL6cNnw24FnbaDyjmvddQ2ML8arZsgaJhoABMoplz/4QRhtrYS+alr1BUM1Bwp6dhx8vVCBSLG+StwOFw==}
@@ -2717,6 +2728,10 @@ packages:
       braces: 3.0.2
       picomatch: 2.3.1
     dev: true
+
+  /midi-file/1.2.4:
+    resolution: {integrity: sha512-B5SnBC6i2bwJIXTY9MElIydJwAmnKx+r5eJ1jknTLetzLflEl0GWveuBB6ACrQpecSRkOB6fhTx1PwXk2BVxnA==}
+    dev: false
 
   /minimatch/3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}

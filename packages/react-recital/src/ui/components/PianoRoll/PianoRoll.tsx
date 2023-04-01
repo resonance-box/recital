@@ -4,10 +4,19 @@ import { Background } from './Background'
 import { Notes } from './Notes'
 import { Playhead } from './Playhead'
 
-export const PianoRoll: FC = () => {
+export interface PianoRollProps {
+  width?: number
+  height?: number
+}
+
+export const PianoRoll: FC<PianoRollProps> = ({
+  width: viewportWidth,
+  height: viewportHeight,
+}) => {
   const width = 100000
   const keyHeight = 16
   const height = keyHeight * 128
+  const _viewportHeight = viewportHeight ?? height
 
   const recital = useRecital()
 
@@ -19,9 +28,9 @@ export const PianoRoll: FC = () => {
     <div
       style={{
         position: 'relative',
-        width: '1400px',
-        height: `${height}px`,
-        overflow: 'hidden',
+        width: viewportWidth !== undefined ? `${viewportWidth}px` : undefined,
+        height: `${_viewportHeight}px`,
+        overflow: 'scroll',
       }}
     >
       <div

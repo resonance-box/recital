@@ -3,10 +3,12 @@ import {
   PianoRoll,
   RecitalProvider,
   useRecital,
-  useSoundFont2Synth,
 } from '@resonance-box/react-recital'
 
-import { createTwinkleTwinkleSong } from '@resonance-box/recital-core'
+import {
+  createSoundFont2Synth,
+  createTwinkleTwinkleSong,
+} from '@resonance-box/recital-core'
 import { IconPlayerPlayFilled, IconPlayerStopFilled } from '@tabler/icons-react'
 import { useRef, useState, type FC } from 'react'
 import { useRaf } from 'rooks'
@@ -42,15 +44,17 @@ const Transport: FC = () => {
 }
 
 const PianoRollContainer: FC = () => {
-  const { synth } = useSoundFont2Synth(
-    new URL('./assets/GeneralUser GS v1.471.sf2', import.meta.url)
-  )
   return (
     <RecitalProvider
-      initialConfig={{ song: createTwinkleTwinkleSong(), synth }}
+      initialConfig={{
+        song: createTwinkleTwinkleSong(),
+        synth: createSoundFont2Synth(
+          new URL('./assets/GeneralUser GS v1.471.sf2', import.meta.url)
+        ),
+      }}
     >
       <Transport />
-      <PianoRoll />
+      <PianoRoll height={600} />
     </RecitalProvider>
   )
 }
