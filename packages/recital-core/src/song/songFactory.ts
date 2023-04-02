@@ -16,8 +16,7 @@ export const createDefaultSong = (): Song => {
   })
 }
 
-export const createSongFromMidi = async (url: string | URL): Promise<Song> => {
-  const midi = await Midi.fromUrl(url.toString())
+const createSongFromMidi = (midi: Midi): Song => {
   const song = createEmptySong()
 
   song.ppq = new PPQ(midi.header.ppq)
@@ -40,6 +39,20 @@ export const createSongFromMidi = async (url: string | URL): Promise<Song> => {
   }
 
   return song
+}
+
+export const createSongFromMidiUrl = async (
+  url: string | URL
+): Promise<Song> => {
+  const midi = await Midi.fromUrl(url.toString())
+  return createSongFromMidi(midi)
+}
+
+export const createSongFromMidiArrayBuffer = (
+  arrayBuffer: ArrayLike<number> | ArrayBuffer
+): Song => {
+  const midi = new Midi(arrayBuffer)
+  return createSongFromMidi(midi)
 }
 
 export const createTwinkleTwinkleSong = (): Song => {
