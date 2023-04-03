@@ -16,9 +16,9 @@ export const createDefaultSong = (): Song => {
   })
 }
 
-const createSongFromMidi = (midi: Midi, ppq?: PPQ): Song => {
+const createSongFromMidi = (midi: Midi, ppq?: number): Song => {
   const midiPpq = new PPQ(midi.header.ppq)
-  const song = new SongImpl({ ppq: ppq ?? midiPpq })
+  const song = new SongImpl({ ppq: ppq === undefined ? midiPpq : new PPQ(ppq) })
 
   const tickRatio = song.ppq.value / midiPpq.value
   for (const midiTrack of midi.tracks) {
@@ -43,7 +43,7 @@ const createSongFromMidi = (midi: Midi, ppq?: PPQ): Song => {
 
 export const createSongFromMidiUrl = async (
   url: string | URL,
-  ppq?: PPQ
+  ppq?: number
 ): Promise<Song> => {
   const midi = await Midi.fromUrl(url.toString())
   return createSongFromMidi(midi, ppq)
@@ -51,7 +51,7 @@ export const createSongFromMidiUrl = async (
 
 export const createSongFromMidiArrayBuffer = (
   arrayBuffer: ArrayLike<number> | ArrayBuffer,
-  ppq?: PPQ
+  ppq?: number
 ): Song => {
   const midi = new Midi(arrayBuffer)
   return createSongFromMidi(midi, ppq)
