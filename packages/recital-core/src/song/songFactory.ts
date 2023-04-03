@@ -1,8 +1,8 @@
 import { Midi } from '@tonejs/midi'
 import { createNote, createTimeSignature } from '../events'
-import { PPQ } from '../shared'
+import { DEFAULT_PPQ, PPQ } from '../shared'
 import { createEmptyTrack } from '../track'
-import { DEFAULT_PPQ, SongImpl, type Song } from './song'
+import { SongImpl, type Song } from './song'
 
 export const createEmptySong = (): Song => {
   return new SongImpl()
@@ -16,19 +16,19 @@ export const createDefaultSong = (): Song => {
   })
 }
 
-const createSongFromMidi = (midi: Midi): Song => {
-  const song = createEmptySong()
+const createSongFromMidi = (midi: Midi, ppq?: PPQ): Song => {
+  const midiPpq = new PPQ(midi.header.ppq)
+  const song = new SongImpl({ ppq: ppq ?? midiPpq })
 
-  song.ppq = new PPQ(midi.header.ppq)
-
+  const tickRatio = song.ppq.value / midiPpq.value
   for (const midiTrack of midi.tracks) {
     const track = createEmptyTrack()
 
     midiTrack.notes.forEach((note) => {
       track.addNote(
         createNote(
-          note.ticks,
-          note.durationTicks,
+          note.ticks * tickRatio,
+          note.durationTicks * tickRatio,
           note.midi,
           note.velocity * 127
         )
@@ -42,21 +42,23 @@ const createSongFromMidi = (midi: Midi): Song => {
 }
 
 export const createSongFromMidiUrl = async (
-  url: string | URL
+  url: string | URL,
+  ppq?: PPQ
 ): Promise<Song> => {
   const midi = await Midi.fromUrl(url.toString())
-  return createSongFromMidi(midi)
+  return createSongFromMidi(midi, ppq)
 }
 
 export const createSongFromMidiArrayBuffer = (
-  arrayBuffer: ArrayLike<number> | ArrayBuffer
+  arrayBuffer: ArrayLike<number> | ArrayBuffer,
+  ppq?: PPQ
 ): Song => {
   const midi = new Midi(arrayBuffer)
-  return createSongFromMidi(midi)
+  return createSongFromMidi(midi, ppq)
 }
 
 export const createTwinkleTwinkleSong = (): Song => {
-  const song = createDefaultSong()
+  const song = new SongImpl({ ppq: new PPQ(DEFAULT_PPQ) })
   const ppq = DEFAULT_PPQ
   const velocity = 100
 

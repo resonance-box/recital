@@ -1,5 +1,6 @@
 import {
   BPM,
+  DEFAULT_PPQ,
   Milliseconds,
   millisecondsToTicks,
   PPQ,
@@ -8,7 +9,6 @@ import {
 } from '../shared'
 
 const DEFAULT_BPM = 120
-const DEFAULT_PPQ = 480
 const DEFAULT_UPDATE_INTERVAL_TIME = 50
 
 export interface Transport {
