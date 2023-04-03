@@ -16,7 +16,7 @@ export interface Transport {
   seconds: Seconds
   bpm: BPM
   ppq: PPQ
-  start: () => void
+  play: () => void
   stop: () => void
   onUpdate?: OnUpdate
 }
@@ -53,7 +53,7 @@ export class TransportImpl implements Transport {
     this.intervalId = undefined
   }
 
-  start(): void {
+  play(): void {
     if (this.running) {
       console.warn('Called start function while running. aborted.')
       return

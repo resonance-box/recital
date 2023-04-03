@@ -7,7 +7,7 @@ import { type Track } from './track'
 
 export interface Recital {
   readonly player: Player
-  start: () => void
+  play: () => void
   stop: () => void
   getCurrentTicks: () => number
   getCurrentSeconds: () => number
@@ -45,8 +45,8 @@ export class RecitalImpl implements Recital {
     })
   }
 
-  start(): void {
-    this.player.start()
+  play(): void {
+    this.player.play()
   }
 
   stop(): void {
