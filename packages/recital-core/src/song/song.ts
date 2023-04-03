@@ -1,9 +1,7 @@
 import { immerable } from 'immer'
 import { type TimeSignature } from '../events'
-import { PPQ, Ticks } from '../shared'
+import { DEFAULT_PPQ, PPQ, Ticks } from '../shared'
 import { type Track } from '../track'
-
-export const DEFAULT_PPQ = 480
 
 export interface Song {
   ppq: PPQ
