@@ -27,8 +27,8 @@ function createRecitalStore(recital: Recital): RecitalContextType {
 
     return {
       player: recital.player,
-      start: () => {
-        get().player.start()
+      play: () => {
+        get().player.play()
       },
       stop: () => {
         get().player.stop()

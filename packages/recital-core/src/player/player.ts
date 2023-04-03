@@ -16,7 +16,7 @@ const DEFAULT_LOOK_AHEAD_TIME = 50
 
 export interface Player {
   song: Song
-  start: () => void
+  play: () => void
   stop: () => void
   getCurrentTicks: () => Ticks
   getCurrentSeconds: () => Seconds
@@ -103,8 +103,8 @@ export class PlayerImpl implements Player {
     }
   }
 
-  start(): void {
-    this.transport.start()
+  play(): void {
+    this.transport.play()
   }
 
   stop(): void {
