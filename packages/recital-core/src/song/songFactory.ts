@@ -27,8 +27,8 @@ const createSongFromMidi = (midi: Midi, ppq?: number): Song => {
     midiTrack.notes.forEach((note) => {
       track.addNote(
         createNote(
-          note.ticks * tickRatio,
-          note.durationTicks * tickRatio,
+          Math.round(note.ticks * tickRatio),
+          Math.round(note.durationTicks * tickRatio),
           note.midi,
           note.velocity * 127
         )
