@@ -1,21 +1,31 @@
 import { type Note as INote } from '@resonance-box/recital-core'
 import { type FC } from 'react'
-import { useRecital } from '../../../RecitalProviderContext'
 
 interface NoteProps {
   note: INote
   beatWidth: number
+  keyHeight: number
+  minNoteNumber: number
+  numNoteNumbers: number
 }
 
-const Note: FC<NoteProps> = ({ note, beatWidth }) => {
-  const keyHeight = 16
+const Note: FC<NoteProps> = ({
+  note,
+  beatWidth,
+  keyHeight,
+  minNoteNumber,
+  numNoteNumbers,
+}) => {
   return (
     <div
       style={{
         position: 'absolute',
         backgroundColor: 'rgb(14 165 233)',
         left: `${(note.ticks.value * beatWidth) / (480 * 4)}px`,
-        top: `${(128 - note.noteNumber.value - 1) * keyHeight}px`,
+        top: `${
+          (numNoteNumbers - (note.noteNumber.value - minNoteNumber) - 1) *
+          keyHeight
+        }px`,
         width: `${(note.durationTicks.value * beatWidth) / (480 * 4) - 2}px`,
         height: `${keyHeight}px`,
       }}
@@ -25,24 +35,30 @@ const Note: FC<NoteProps> = ({ note, beatWidth }) => {
 
 interface NotesProps {
   notes: INote[]
+  beatWidth: number
+  keyHeight: number
+  minNoteNumber: number
+  numNoteNumbers: number
 }
 
-export const Notes: FC<NotesProps> = ({ notes }) => {
-  const recital = useRecital()
-
-  if (recital == null) {
-    return null
-  }
-  const { getPpq } = recital
-
-  const pixelsPerTick = 0.05
-  const ppq = getPpq()
-  const beatWidth = pixelsPerTick * ppq * 4
-
+export const Notes: FC<NotesProps> = ({
+  notes,
+  beatWidth,
+  keyHeight,
+  minNoteNumber,
+  numNoteNumbers,
+}) => {
   return (
     <>
       {notes.map((note) => (
-        <Note key={note.id} note={note} beatWidth={beatWidth} />
+        <Note
+          key={note.id}
+          note={note}
+          beatWidth={beatWidth}
+          keyHeight={keyHeight}
+          minNoteNumber={minNoteNumber}
+          numNoteNumbers={numNoteNumbers}
+        />
       ))}
     </>
   )
