@@ -6,7 +6,7 @@ import {
 } from '@resonance-box/react-recital'
 
 import {
-  createSongFromMidi,
+  createSongFromMidiUrl,
   createSoundFont2Synth,
   type Song,
 } from '@resonance-box/recital-core'
@@ -16,7 +16,7 @@ import { useRaf } from 'rooks'
 
 const Transport: FC = () => {
   const ref = useRef<HTMLDivElement | null>(null)
-  const { start, stop, getCurrentTicks } = useRecital()
+  const { play, stop, getCurrentTicks } = useRecital()
 
   useRaf(() => {
     if (ref.current != null) {
@@ -29,7 +29,7 @@ const Transport: FC = () => {
       <Text>Current Ticks: </Text>
       <Text ref={ref} />
       <Group>
-        <Button leftIcon={<IconPlayerPlayFilled size="1rem" />} onClick={start}>
+        <Button leftIcon={<IconPlayerPlayFilled size="1rem" />} onClick={play}>
           PLAY
         </Button>
         <Button
@@ -53,11 +53,13 @@ const PianoRollContainer: FC = () => {
   )
 
   if (song === undefined) {
-    createSongFromMidi(new URL('./assets/bach_846.mid', import.meta.url)).then(
-      (song) => {
+    createSongFromMidiUrl(new URL('./assets/bach_846.mid', import.meta.url))
+      .then((song) => {
         setSong(song)
-      }
-    )
+      })
+      .catch((err) => {
+        throw new Error(err.message)
+      })
     return null
   }
 
