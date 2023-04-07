@@ -39,7 +39,7 @@
     "@tonejs/midi": "^2.0.28",
     "immer": "^9.0.21",
     "lodash": "^4.17.21",
-    "sf2-synth-audio-worklet": "^0.0.7"
+    "sf2-synth-audio-worklet": "^0.0.8"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.192",

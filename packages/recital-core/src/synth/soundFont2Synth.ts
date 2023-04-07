@@ -6,25 +6,14 @@ import { type NoteNumber, type Velocity } from '../events'
 import { type Seconds } from '../shared'
 import { type Synth } from './synth'
 
-export interface SoundFont2SynthOptions
-  extends Partial<{
-    audioContext: AudioContext
-    onSetupCompleted?: (setupCompleted: boolean) => void
-  }> {}
-
 export class SoundFont2Synth implements Synth {
-  setupCompleted: boolean
   private node?: SoundFont2SynthNode
 
-  constructor(url: string | URL, options?: SoundFont2SynthOptions) {
-    this.setupCompleted = false
-    const audioContext = options?.audioContext ?? new AudioContext()
+  constructor(url: string | URL, audioContext: AudioContext) {
     createSoundFont2SynthNode(audioContext, url)
       .then((node) => {
         node.connect(audioContext.destination)
         this.node = node
-        this.setupCompleted = true
-        options?.onSetupCompleted?.(true)
       })
       .catch((err) => {
         throw new Error(
@@ -35,7 +24,7 @@ export class SoundFont2Synth implements Synth {
   }
 
   noteOn(noteNumber: NoteNumber, velocity: Velocity, delayTime: Seconds): void {
-    if (!this.setupCompleted || this.node === undefined) {
+    if (this.node === undefined) {
       console.warn(
         'The synthesizer has not been set up yet. Please wait for the synthesizer setup to complete before calling the noteOn function.'
       )
@@ -45,7 +34,7 @@ export class SoundFont2Synth implements Synth {
   }
 
   noteOff(noteNumber: NoteNumber, delayTime: Seconds): void {
-    if (!this.setupCompleted || this.node === undefined) {
+    if (this.node === undefined) {
       console.warn(
         'The synthesizer has not been set up yet. Please wait for the synthesizer setup to complete before calling the noteOff function.'
       )
