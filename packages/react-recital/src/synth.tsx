@@ -1,8 +1,4 @@
-import {
-  createSoundFont2Synth,
-  type SoundFont2SynthOptions,
-  type Synth,
-} from '@resonance-box/recital-core'
+import { createSoundFont2Synth, type Synth } from '@resonance-box/recital-core'
 import { useState } from 'react'
 
 export interface UseSoundFont2SynthResult {
@@ -11,10 +7,10 @@ export interface UseSoundFont2SynthResult {
 
 export const useSoundFont2Synth = (
   url: string | URL,
-  options?: SoundFont2SynthOptions
+  audioContext: AudioContext
 ): UseSoundFont2SynthResult => {
   const [synthRef] = useState(() => ({
-    current: createSoundFont2Synth(url, options),
+    current: createSoundFont2Synth(url, audioContext),
   }))
 
   return { synth: synthRef.current }
