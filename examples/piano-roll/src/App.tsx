@@ -3,13 +3,10 @@ import {
   PianoRoll,
   RecitalProvider,
   useRecital,
+  useSongFromMidiUrl,
+  useSoundFont2Synth,
 } from '@resonance-box/react-recital'
-
-import {
-  createSongFromMidiUrl,
-  createSoundFont2Synth,
-  type Song,
-} from '@resonance-box/recital-core'
+import { type Song } from '@resonance-box/recital-core'
 import { IconPlayerPlayFilled, IconPlayerStopFilled } from '@tabler/icons-react'
 import { useRef, useState, type FC } from 'react'
 import { useRaf } from 'rooks'
@@ -44,23 +41,18 @@ const Transport: FC = () => {
   )
 }
 
-const PianoRollContainer: FC = () => {
-  const [song, setSong] = useState<Song | undefined>(undefined)
-  const [synth] = useState(
-    createSoundFont2Synth(
-      new URL('./assets/GeneralUser GS v1.471.sf2', import.meta.url)
-    )
+interface PianoRollContainerProps {
+  song: Song
+}
+
+const PianoRollContainer: FC<PianoRollContainerProps> = ({ song }) => {
+  const { synth, initialized } = useSoundFont2Synth(
+    new URL('./assets/GeneralUser GS v1.471.sf2', import.meta.url),
+    new AudioContext()
   )
 
-  if (song === undefined) {
-    createSongFromMidiUrl(new URL('./assets/bach_846.mid', import.meta.url))
-      .then((song) => {
-        setSong(song)
-      })
-      .catch((err) => {
-        throw new Error(err.message)
-      })
-    return null
+  if (!initialized) {
+    return <Text>Loading synthesizer...</Text>
   }
 
   return (
@@ -77,9 +69,21 @@ const PianoRollContainer: FC = () => {
 }
 
 export const App: FC = () => {
-  const [audioContext, setAudioContext] = useState<AudioContext | undefined>(
-    undefined
+  const [started, setStarted] = useState(false)
+  const { song } = useSongFromMidiUrl(
+    new URL('./assets/bach_846.mid', import.meta.url)
   )
+  // const [song, setSong] = useState<Song | undefined>()
+
+  // useEffect(() => {
+  //   createSongFromMidiUrl(new URL('./assets/bach_846.mid', import.meta.url))
+  //     .then((song) => {
+  //       setSong(song)
+  //     })
+  //     .catch((err) => {
+  //       throw new Error(err.message)
+  //     })
+  // }, [])
 
   return (
     <Container p="xl">
@@ -88,19 +92,20 @@ export const App: FC = () => {
           Piano Roll
         </Title>
         <Text>This is a piano-roll component for the browser.</Text>
-        {audioContext === undefined ? (
+        {started && song !== undefined && <PianoRollContainer song={song} />}
+        {!started && (
           <Group>
             <Button
               onClick={() => {
-                setAudioContext(new AudioContext())
+                console.log('click start button')
+                setStarted(true)
               }}
             >
               START
             </Button>
           </Group>
-        ) : (
-          <PianoRollContainer />
         )}
+        {song === undefined && <Text>creating song...</Text>}
       </Stack>
     </Container>
   )
