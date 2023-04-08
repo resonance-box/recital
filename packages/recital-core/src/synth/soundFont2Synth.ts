@@ -6,14 +6,28 @@ import { type NoteNumber, type Velocity } from '../events'
 import { type Seconds } from '../shared'
 import { type Synth } from './synth'
 
+export interface SoundFont2SynthOptions
+  extends Partial<{
+    onInitialized?: () => void
+  }> {}
+
 export class SoundFont2Synth implements Synth {
+  initialized: boolean
   private node?: SoundFont2SynthNode
 
-  constructor(url: string | URL, audioContext: AudioContext) {
+  constructor(
+    url: string | URL,
+    audioContext: AudioContext,
+    options?: SoundFont2SynthOptions
+  ) {
+    this.initialized = false
+
     createSoundFont2SynthNode(audioContext, url)
       .then((node) => {
         node.connect(audioContext.destination)
         this.node = node
+        this.initialized = true
+        options?.onInitialized?.()
       })
       .catch((err) => {
         throw new Error(
