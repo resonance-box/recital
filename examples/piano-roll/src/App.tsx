@@ -8,7 +8,7 @@ import {
 } from '@resonance-box/react-recital'
 import { type Song } from '@resonance-box/recital-core'
 import { IconPlayerPlayFilled, IconPlayerStopFilled } from '@tabler/icons-react'
-import { useRef, useState, type FC } from 'react'
+import { useEffect, useRef, useState, type FC } from 'react'
 import { useRaf } from 'rooks'
 
 const Transport: FC = () => {
@@ -41,61 +41,71 @@ const Transport: FC = () => {
   )
 }
 
-interface PianoRollContainerProps {
-  song: Song
-}
-
-const PianoRollContainer: FC<PianoRollContainerProps> = ({ song }) => {
+const PianoRollContainer: FC = () => {
   const { synth, initialized } = useSoundFont2Synth(
     new URL('./assets/GeneralUser GS v1.471.sf2', import.meta.url),
     new AudioContext()
   )
+  const { song, isLoading } = useSongFromMidiUrl(
+    new URL('./assets/bach_846.mid', import.meta.url)
+  )
+  const { setSynth, setSong } = useRecital()
 
-  if (!initialized) {
-    return <Text>Loading synthesizer...</Text>
+  useEffect(() => {
+    if (initialized) {
+      setSynth(synth)
+    }
+  }, [initialized])
+
+  useEffect(() => {
+    if (!isLoading) {
+      setSong(song as Song)
+    }
+  }, [isLoading])
+
+  if (!initialized || isLoading) {
+    return (
+      <>
+        {!initialized && <Text>Loading synthesizer...</Text>}
+        {isLoading && <Text>Loading song...</Text>}
+      </>
+    )
   }
 
   return (
-    <RecitalProvider
-      initialConfig={{
-        song,
-        synth,
-      }}
-    >
+    <>
       <Transport />
       <PianoRoll height={600} />
-    </RecitalProvider>
+    </>
   )
 }
 
 export const App: FC = () => {
   const [started, setStarted] = useState(false)
-  const { song } = useSongFromMidiUrl(
-    new URL('./assets/bach_846.mid', import.meta.url)
-  )
 
   return (
-    <Container p="xl">
-      <Stack>
-        <Title order={2} fw={500}>
-          Piano Roll
-        </Title>
-        <Text>This is a piano-roll component for the browser.</Text>
-        {started && song !== undefined && <PianoRollContainer song={song} />}
-        {!started && (
-          <Group>
-            <Button
-              onClick={() => {
-                console.log('click start button')
-                setStarted(true)
-              }}
-            >
-              START
-            </Button>
-          </Group>
-        )}
-        {song === undefined && <Text>creating song...</Text>}
-      </Stack>
-    </Container>
+    <RecitalProvider>
+      <Container p="xl">
+        <Stack>
+          <Title order={2} fw={500}>
+            Piano Roll
+          </Title>
+          <Text>This is a piano-roll component for the browser.</Text>
+          {started && <PianoRollContainer />}
+          {!started && (
+            <Group>
+              <Button
+                onClick={() => {
+                  console.log('click start button')
+                  setStarted(true)
+                }}
+              >
+                START
+              </Button>
+            </Group>
+          )}
+        </Stack>
+      </Container>
+    </RecitalProvider>
   )
 }
