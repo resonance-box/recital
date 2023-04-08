@@ -16,6 +16,7 @@ const DEFAULT_LOOK_AHEAD_TIME = 50
 
 export interface Player {
   song: Song
+  synth?: Synth
   play: () => void
   stop: () => void
   getCurrentTicks: () => Ticks
@@ -35,10 +36,10 @@ export interface PlayerOptions
 
 export class PlayerImpl implements Player {
   song: Song
+  synth?: Synth
   private readonly lookAheadTime: Milliseconds
   private scheduledTicks: Ticks
   private readonly transport: Transport
-  private readonly synth?: Synth
   onChangeBpm?: (bpm: BPM) => void
 
   constructor(song: Song, options?: PlayerOptions) {

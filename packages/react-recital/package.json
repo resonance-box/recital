@@ -1,6 +1,6 @@
 {
   "name": "@resonance-box/react-recital",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "A musical tools for the browser for React",
   "keywords": [
     "music",
@@ -35,7 +35,7 @@
     "build": "tsc && vite build"
   },
   "dependencies": {
-    "@resonance-box/recital-core": "workspace:^0.0.11",
+    "@resonance-box/recital-core": "workspace:^0.0.12",
     "immer": "^9.0.21",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
