@@ -33,8 +33,8 @@ importers:
       '@emotion/react': ^11.10.6
       '@mantine/core': ^6.0.5
       '@mantine/hooks': ^6.0.5
-      '@resonance-box/react-recital': workspace:^0.0.13
-      '@resonance-box/recital-core': workspace:^0.0.13
+      '@resonance-box/react-recital': workspace:^0.0.14
+      '@resonance-box/recital-core': workspace:^0.0.14
       '@tabler/icons-react': ^2.13.1
       '@types/react': ^18.0.31
       '@types/react-dom': ^18.0.11
@@ -63,7 +63,7 @@ importers:
 
   packages/react-recital:
     specifiers:
-      '@resonance-box/recital-core': workspace:^0.0.13
+      '@resonance-box/recital-core': workspace:^0.0.14
       '@types/lodash': ^4.14.192
       '@types/react': ^18.0.31
       '@types/react-dom': ^18.0.11
