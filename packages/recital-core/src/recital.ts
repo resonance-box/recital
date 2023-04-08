@@ -17,6 +17,8 @@ export interface Recital {
   setPpq: (ppq: number) => void
   getSong: () => Song
   setSong: (song: Song) => void
+  getSynth: () => Synth | undefined
+  setSynth: (synth: Synth) => void
   getTracks: () => Track[]
   findTrack: (id: string) => Track | undefined
   getTrack: (id: string) => Track
@@ -83,6 +85,14 @@ export class RecitalImpl implements Recital {
 
   setSong(song: Song): void {
     this.player.song = song
+  }
+
+  getSynth(): Synth | undefined {
+    return this.player.synth
+  }
+
+  setSynth(synth: Synth): void {
+    this.player.synth = synth
   }
 
   getTracks(): Track[] {
