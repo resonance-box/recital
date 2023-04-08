@@ -5,6 +5,7 @@ import {
   type Note,
   type Recital,
   type Song,
+  type Synth,
   type Track,
 } from '@resonance-box/recital-core'
 import produce from 'immer'
@@ -61,6 +62,12 @@ function createRecitalStore(recital: Recital): RecitalContextType {
         player.song = song
         set({ player })
       },
+      getSynth: () => get().player.synth,
+      setSynth: (synth: Synth) => {
+        const player = get().player
+        player.synth = synth
+        set({ player })
+      },
       getTracks: () => {
         return get().getSong().getTracks()
       },
@@ -111,7 +118,7 @@ function createRecitalStore(recital: Recital): RecitalContextType {
 }
 
 export function createRecitalContext(
-  initialConfig: InitialConfigType
+  initialConfig?: InitialConfigType
 ): RecitalContextType {
   const recital = new RecitalImpl(initialConfig)
   return createRecitalStore(recital)
