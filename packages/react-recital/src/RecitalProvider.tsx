@@ -9,7 +9,7 @@ export type InitialConfigType = Readonly<{
 
 interface Props {
   children: ReactNode
-  initialConfig: InitialConfigType
+  initialConfig?: InitialConfigType
 }
 
 export function RecitalProvider({
