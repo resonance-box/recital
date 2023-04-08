@@ -73,17 +73,6 @@ export const App: FC = () => {
   const { song } = useSongFromMidiUrl(
     new URL('./assets/bach_846.mid', import.meta.url)
   )
-  // const [song, setSong] = useState<Song | undefined>()
-
-  // useEffect(() => {
-  //   createSongFromMidiUrl(new URL('./assets/bach_846.mid', import.meta.url))
-  //     .then((song) => {
-  //       setSong(song)
-  //     })
-  //     .catch((err) => {
-  //       throw new Error(err.message)
-  //     })
-  // }, [])
 
   return (
     <Container p="xl">
