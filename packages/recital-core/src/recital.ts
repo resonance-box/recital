@@ -33,6 +33,13 @@ export interface Recital {
     noteId: string,
     partialNote: Partial<Omit<Note, 'type' | 'id'>>
   ) => void
+  updateNotes: (
+    args: Array<{
+      trackId: string
+      noteId: string
+      partialNote: Partial<Omit<Note, 'type' | 'id'>>
+    }>
+  ) => void
   deleteNote: (trackId: string, noteId: string) => void
 }
 
@@ -142,6 +149,18 @@ export class RecitalImpl implements Recital {
     partialNote: Partial<Omit<Note, 'type' | 'id'>>
   ): void {
     this.getTrack(trackId).updateNote(noteId, partialNote)
+  }
+
+  updateNotes(
+    args: Array<{
+      trackId: string
+      noteId: string
+      partialNote: Partial<Omit<Note, 'type' | 'id'>>
+    }>
+  ): void {
+    args.forEach(({ trackId, noteId, partialNote }) => {
+      this.updateNote(trackId, noteId, partialNote)
+    })
   }
 
   deleteNote(trackId: string, noteId: string): void {

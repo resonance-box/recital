@@ -117,6 +117,14 @@ function createRecitalStore(recital: Recital): RecitalContextType {
         })
         get().setSong(song)
       },
+      updateNotes(args) {
+        const song = produce(get().getSong(), (draft) => {
+          args.forEach(({ trackId, noteId, partialNote }) => {
+            draft.getTrack(trackId).updateNote(noteId, partialNote)
+          })
+        })
+        get().setSong(song)
+      },
       deleteNote: (trackId: string, noteId: string) => {
         const song = produce(get().getSong(), (draft) => {
           draft.getTrack(trackId).deleteNote(noteId)
