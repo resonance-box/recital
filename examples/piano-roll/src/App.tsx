@@ -6,7 +6,7 @@ import {
   useSongFromMidiUrl,
   useSoundFont2Synth,
 } from '@resonance-box/react-recital'
-import { type Song } from '@resonance-box/recital-core'
+import { Ticks, type Song } from '@resonance-box/recital-core'
 import { IconPlayerPlayFilled, IconPlayerStopFilled } from '@tabler/icons-react'
 import { useEffect, useRef, useState, type FC } from 'react'
 import { useRaf } from 'rooks'
@@ -49,7 +49,35 @@ const PianoRollContainer: FC = () => {
   const { song, isLoading } = useSongFromMidiUrl(
     new URL('./assets/bach_846.mid', import.meta.url)
   )
-  const { setSynth, setSong } = useRecital()
+  const { setSynth, setSong, updateNote, updateNotes, getSong } = useRecital()
+
+  const update = () => {
+    const song = getSong()
+    if (song != null) {
+      const track = song.getTracks()[0]
+      const notes = track.sortedNotes
+
+      // notes.map((note) => {
+      //   updateNote(track.id, note.id, { ticks: new Ticks(100) })
+      // })
+
+      updateNotes(
+        notes.map((note) => ({
+          trackId: track.id,
+          noteId: note.id,
+          partialNote: { ticks: new Ticks(100) },
+        }))
+      )
+
+      // updateNotes(
+      //   notes.map((note) => ({
+      //     trackId: track.id,
+      //     noteId: note.id,
+      //     partialNote: { velocity: new Velocity(100) },
+      //   }))
+      // )
+    }
+  }
 
   useEffect(() => {
     if (initialized) {
@@ -74,6 +102,7 @@ const PianoRollContainer: FC = () => {
 
   return (
     <>
+      <button onClick={update}>update</button>
       <Transport />
       <PianoRoll height={600} />
     </>
