@@ -26,8 +26,20 @@ export interface Recital {
   deleteTrack: (id: string) => void
   getNotes: (trackId: string) => Note[]
   findNote: (trackId: string, noteId: string) => Note | undefined
-  addNote: (trackId: string, note: Note) => void
-  addNotes: (trackId: string, notes: Note[]) => void
+  addNote: (trackId: string, note: Omit<Note, 'type' | 'id'>) => void
+  addNotes: (trackId: string, notes: Array<Omit<Note, 'type' | 'id'>>) => void
+  updateNote: (
+    trackId: string,
+    noteId: string,
+    partialNote: Partial<Omit<Note, 'type' | 'id'>>
+  ) => void
+  updateNotes: (
+    args: Array<{
+      trackId: string
+      noteId: string
+      partialNote: Partial<Omit<Note, 'type' | 'id'>>
+    }>
+  ) => void
   deleteNote: (trackId: string, noteId: string) => void
 }
 
@@ -123,12 +135,32 @@ export class RecitalImpl implements Recital {
     return this.getTrack(trackId).findNote(noteId)
   }
 
-  addNote(trackId: string, note: Note): void {
+  addNote(trackId: string, note: Omit<Note, 'type' | 'id'>): void {
     this.getTrack(trackId).addNote(note)
   }
 
-  addNotes(trackId: string, notes: Note[]): void {
+  addNotes(trackId: string, notes: Array<Omit<Note, 'type' | 'id'>>): void {
     this.getTrack(trackId).addNotes(notes)
+  }
+
+  updateNote(
+    trackId: string,
+    noteId: string,
+    partialNote: Partial<Omit<Note, 'type' | 'id'>>
+  ): void {
+    this.getTrack(trackId).updateNote(noteId, partialNote)
+  }
+
+  updateNotes(
+    args: Array<{
+      trackId: string
+      noteId: string
+      partialNote: Partial<Omit<Note, 'type' | 'id'>>
+    }>
+  ): void {
+    args.forEach(({ trackId, noteId, partialNote }) => {
+      this.updateNote(trackId, noteId, partialNote)
+    })
   }
 
   deleteNote(trackId: string, noteId: string): void {

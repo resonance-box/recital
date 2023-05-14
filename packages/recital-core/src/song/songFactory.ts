@@ -1,6 +1,6 @@
 import { Midi } from '@tonejs/midi'
-import { createNote, createTimeSignature } from '../events'
-import { DEFAULT_PPQ, PPQ } from '../shared'
+import { NoteNumber, Velocity, createTimeSignature } from '../events'
+import { DEFAULT_PPQ, PPQ, Ticks } from '../shared'
 import { createEmptyTrack } from '../track'
 import { SongImpl, type Song } from './song'
 
@@ -25,14 +25,12 @@ const createSongFromMidi = (midi: Midi, ppq?: number): Song => {
     const track = createEmptyTrack()
 
     midiTrack.notes.forEach((note) => {
-      track.addNote(
-        createNote(
-          Math.round(note.ticks * tickRatio),
-          Math.round(note.durationTicks * tickRatio),
-          note.midi,
-          note.velocity * 127
-        )
-      )
+      track.addNote({
+        ticks: new Ticks(Math.round(note.ticks * tickRatio)),
+        durationTicks: new Ticks(Math.round(note.durationTicks * tickRatio)),
+        noteNumber: new NoteNumber(note.midi),
+        velocity: new Velocity(note.velocity * 127),
+      })
     })
 
     song.addTrack(track)
@@ -82,7 +80,12 @@ export const createTwinkleTwinkleSong = (): Song => {
 
   const track = song.getTracks()[0]
   notes.forEach(({ ticks, durationTicks, noteNumber, velocity }) => {
-    track.addNote(createNote(ticks, durationTicks, noteNumber, velocity))
+    track.addNote({
+      ticks: new Ticks(ticks),
+      durationTicks: new Ticks(durationTicks),
+      noteNumber: new NoteNumber(noteNumber),
+      velocity: new Velocity(velocity),
+    })
   })
 
   return song

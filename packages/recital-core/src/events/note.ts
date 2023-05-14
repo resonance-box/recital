@@ -29,25 +29,9 @@ export class Velocity {
   }
 }
 
-export class Note implements Event<'Note'>, IHasStringId {
-  readonly type = 'Note'
-  readonly id: string
-  readonly ticks: Ticks
-  readonly durationTicks: Ticks
-  readonly noteNumber: NoteNumber
-  readonly velocity: Velocity
-
-  constructor(
-    id: string,
-    ticks: Ticks,
-    durationTicks: Ticks,
-    noteNumber: NoteNumber,
-    velocity: Velocity
-  ) {
-    this.id = id
-    this.ticks = ticks
-    this.durationTicks = durationTicks
-    this.noteNumber = noteNumber
-    this.velocity = velocity
-  }
+export interface Note extends Event<'Note'>, IHasStringId {
+  ticks: Ticks
+  durationTicks: Ticks
+  noteNumber: NoteNumber
+  velocity: Velocity
 }
