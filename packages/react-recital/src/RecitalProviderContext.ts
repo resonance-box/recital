@@ -95,15 +95,25 @@ function createRecitalStore(recital: Recital): RecitalContextType {
       findNote: (trackId: string, noteId: string) => {
         return get().getTrack(trackId).findNote(noteId)
       },
-      addNote: (trackId: string, note: Note) => {
+      addNote: (trackId: string, note: Omit<Note, 'type' | 'id'>) => {
         const song = produce(get().getSong(), (draft) => {
           draft.getTrack(trackId).addNote(note)
         })
         get().setSong(song)
       },
-      addNotes: (trackId: string, notes: Note[]) => {
+      addNotes: (trackId: string, notes: Array<Omit<Note, 'type' | 'id'>>) => {
         const song = produce(get().getSong(), (draft) => {
           draft.getTrack(trackId).addNotes(notes)
+        })
+        get().setSong(song)
+      },
+      updateNote: (
+        trackId: string,
+        nodeId: string,
+        partialNote: Partial<Omit<Note, 'type' | 'id'>>
+      ) => {
+        const song = produce(get().getSong(), (draft) => {
+          draft.getTrack(trackId).updateNote(nodeId, partialNote)
         })
         get().setSong(song)
       },
