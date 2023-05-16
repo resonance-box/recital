@@ -26,8 +26,11 @@ const Note: FC<NoteProps> = ({
           (numNoteNumbers - (note.noteNumber.value - minNoteNumber) - 1) *
           keyHeight
         }px`,
-        width: `${(note.durationTicks.value * beatWidth) / (480 * 4) - 2}px`,
+        width: `${(note.durationTicks.value * beatWidth) / (480 * 4)}px`,
         height: `${keyHeight}px`,
+        border: '1px solid',
+        borderColor: 'rgb(3 40 57)',
+        boxSizing: 'border-box',
       }}
     />
   )
