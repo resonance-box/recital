@@ -82,6 +82,18 @@ export const PianoRoll: FC<PianoRollProps> = ({
     }
   }, [])
 
+  useEffect(() => {
+    // scroll so that the center note number appears in the center of the viewport
+    if (viewportRef.current != null) {
+      const centerNoteNumber = Math.floor(
+        (maxNoteNumber - minNoteNumber) / 2 + minNoteNumber
+      )
+      const centerNoteNumberY = keyHeight * centerNoteNumber
+      const viewportCenterY = viewportRef.current.clientHeight / 2
+      viewportRef.current.scrollTop = centerNoteNumberY - viewportCenterY
+    }
+  }, [])
+
   return (
     <div>
       <div
