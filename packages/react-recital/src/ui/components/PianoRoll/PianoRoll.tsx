@@ -1,4 +1,5 @@
-import { type FC } from 'react'
+import { useEffect, useRef, useState, type FC } from 'react'
+import { useRaf } from 'rooks'
 import { useRecital } from '../../../RecitalProviderContext'
 import { Background } from './Background'
 import { Notes } from './Notes'
@@ -38,7 +39,7 @@ export const PianoRoll: FC<PianoRollProps> = ({
   const _viewportHeight =
     viewportHeight === undefined ? height : Math.min(viewportHeight, height)
 
-  const { getTracks, getNotes, getPpq } = useRecital()
+  const { getTracks, getNotes, getPpq, getCurrentTicks } = useRecital()
   const pixelsPerTick = 0.05
   const ppq = getPpq()
   const beatWidth = pixelsPerTick * ppq * 4
@@ -46,44 +47,82 @@ export const PianoRoll: FC<PianoRollProps> = ({
   const track = getTracks()[0]
   const notes = getNotes(track.id)
 
+  const viewportRef = useRef<HTMLDivElement>(null)
+  const [isScrolling, setIsScrolling] = useState(false)
+  const scrollTimeoutId = useRef<number>()
+
+  useRaf(() => {
+    if (viewportRef.current != null && !isScrolling) {
+      // calculate the gap between the playhead and the right edge of the viewport
+      const gap =
+        pixelsPerTick * getCurrentTicks() -
+        (viewportRef.current.scrollLeft + viewportRef.current.clientWidth)
+
+      if (gap > 0 && gap < pixelsPerTick * getPpq()) {
+        viewportRef.current.scrollLeft += viewportRef.current.clientWidth
+      }
+    }
+  }, true)
+
+  useEffect(() => {
+    const handleScroll = (): void => {
+      setIsScrolling(true)
+
+      clearTimeout(scrollTimeoutId.current)
+
+      scrollTimeoutId.current = setTimeout(() => {
+        setIsScrolling(false)
+      }, 100)
+    }
+
+    viewportRef.current?.addEventListener('scroll', handleScroll)
+
+    return () => {
+      viewportRef.current?.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
   return (
-    <div
-      style={{
-        position: 'relative',
-        width: viewportWidth !== undefined ? `${viewportWidth}px` : undefined,
-        height: `${_viewportHeight}px`,
-        overflow: 'scroll',
-      }}
-    >
+    <div>
       <div
+        ref={viewportRef}
         style={{
-          position: 'absolute',
-          width: `${width}px`,
-          height: `${height}px`,
-          top: 0,
-          left: 0,
-          overflow: 'hidden',
-          transform: 'translate(0)',
-          userSelect: 'none',
-          backgroundColor: '#282a36',
+          position: 'relative',
+          width: viewportWidth !== undefined ? `${viewportWidth}px` : undefined,
+          height: `${_viewportHeight}px`,
+          overflow: 'scroll',
         }}
       >
-        <Background
-          width={width}
-          height={height}
-          keyHeight={keyHeight}
-          minNoteNumber={minNoteNumber}
-          maxNoteNumber={maxNoteNumber}
-          numNoteNumbers={numNoteNumbers}
-        />
-        <Notes
-          notes={notes}
-          beatWidth={beatWidth}
-          keyHeight={keyHeight}
-          minNoteNumber={minNoteNumber}
-          numNoteNumbers={numNoteNumbers}
-        />
-        <Playhead pixelsPerTick={pixelsPerTick} height={height} />
+        <div
+          style={{
+            position: 'absolute',
+            width: `${width}px`,
+            height: `${height}px`,
+            top: 0,
+            left: 0,
+            overflow: 'hidden',
+            transform: 'translate(0)',
+            userSelect: 'none',
+            backgroundColor: '#282a36',
+          }}
+        >
+          <Background
+            width={width}
+            height={height}
+            keyHeight={keyHeight}
+            minNoteNumber={minNoteNumber}
+            maxNoteNumber={maxNoteNumber}
+            numNoteNumbers={numNoteNumbers}
+          />
+          <Notes
+            notes={notes}
+            beatWidth={beatWidth}
+            keyHeight={keyHeight}
+            minNoteNumber={minNoteNumber}
+            numNoteNumbers={numNoteNumbers}
+          />
+          <Playhead pixelsPerTick={pixelsPerTick} height={height} />
+        </div>
       </div>
     </div>
   )
