@@ -1,6 +1,6 @@
 {
   "name": "@resonance-box/recital-core",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "A musical tools for the browser",
   "keywords": [
     "music"
@@ -24,7 +24,8 @@
   "types": "./dist/recital-core.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/recital-core.mjs"
+      "import": "./dist/recital-core.mjs",
+      "types": "./dist/recital-core.d.ts"
     }
   },
   "files": [
