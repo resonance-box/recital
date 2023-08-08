@@ -39,7 +39,7 @@ export const PianoRoll: FC<PianoRollProps> = ({
   const _viewportHeight =
     viewportHeight === undefined ? height : Math.min(viewportHeight, height)
 
-  const { getTracks, getNotes, getPpq, getCurrentTicks } = useRecital()
+  const { getTracks, getNotes, getPpq, getCurrentTicks, playing } = useRecital()
   const pixelsPerTick = 0.05
   const ppq = getPpq()
   const beatWidth = pixelsPerTick * ppq * 4
@@ -50,6 +50,12 @@ export const PianoRoll: FC<PianoRollProps> = ({
   const viewportRef = useRef<HTMLDivElement>(null)
   const [isScrolling, setIsScrolling] = useState(false)
   const scrollTimeoutId = useRef<number>()
+
+  useEffect(() => {
+    if (playing === false && viewportRef.current != null) {
+      viewportRef.current.scrollLeft = 0
+    }
+  }, [playing])
 
   useRaf(() => {
     if (viewportRef.current != null && !isScrolling) {
@@ -62,7 +68,7 @@ export const PianoRoll: FC<PianoRollProps> = ({
         viewportRef.current.scrollLeft += viewportRef.current.clientWidth
       }
     }
-  }, true)
+  }, playing)
 
   useEffect(() => {
     const handleScroll = (): void => {

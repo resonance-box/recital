@@ -7,6 +7,7 @@ import { type Track } from './track'
 
 export interface Recital {
   readonly player: Player
+  readonly playing: boolean
   play: () => void
   stop: () => void
   getCurrentTicks: () => number
@@ -57,6 +58,10 @@ export class RecitalImpl implements Recital {
     this.player = createPlayer(song, {
       synth: options?.synth,
     })
+  }
+
+  get playing(): boolean {
+    return this.player.playing
   }
 
   play(): void {

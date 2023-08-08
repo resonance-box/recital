@@ -16,6 +16,7 @@ export interface Transport {
   seconds: Seconds
   bpm: BPM
   ppq: PPQ
+  playing: boolean
   play: () => void
   stop: () => void
   onUpdate?: OnUpdate
@@ -31,7 +32,7 @@ interface TransportOptions
   }> {}
 
 export class TransportImpl implements Transport {
-  private running: boolean
+  playing: boolean
   ticks: Ticks
   seconds: Seconds
   bpm: BPM
@@ -42,7 +43,7 @@ export class TransportImpl implements Transport {
   onUpdate?: OnUpdate
 
   constructor(options?: TransportOptions) {
-    this.running = false
+    this.playing = false
     this.ticks = new Ticks(0)
     this.seconds = new Seconds(0)
     this.bpm = options?.bpm ?? new BPM(DEFAULT_BPM)
@@ -54,12 +55,12 @@ export class TransportImpl implements Transport {
   }
 
   play(): void {
-    if (this.running) {
-      console.warn('Called start function while running. aborted.')
+    if (this.playing) {
+      console.warn('Called play function while playing. aborted.')
       return
     }
 
-    this.running = true
+    this.playing = true
     this.intervalId = setInterval(() => {
       this.next()
     }, this.updateIntervalTime.value)
@@ -87,7 +88,7 @@ export class TransportImpl implements Transport {
   }
 
   stop(): void {
-    this.running = false
+    this.playing = false
     this.ticks = new Ticks(0)
     this.seconds = new Seconds(0)
     this.prevTime = undefined
