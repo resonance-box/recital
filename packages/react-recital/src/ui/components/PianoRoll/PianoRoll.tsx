@@ -32,15 +32,25 @@ export const PianoRoll: FC<PianoRollProps> = ({
     )
   }
 
-  const width = 100000
+  const { getSong, getTracks, getNotes, getPpq, getCurrentTicks, playing } =
+    useRecital()
+
+  const pixelsPerTick = 0.05
+
+  const endOfSongTicks = getSong().endOfSongTicks.value
+
+  // TODO: set container width as default instead of window.innerWidth when viewportWidth is undefined
+  const width =
+    viewportWidth === undefined
+      ? Math.max(pixelsPerTick * endOfSongTicks, window.innerWidth)
+      : Math.max(pixelsPerTick * endOfSongTicks, viewportWidth)
+
   const keyHeight = 16
   const numNoteNumbers = maxNoteNumber - minNoteNumber + 1
   const height = keyHeight * numNoteNumbers
   const _viewportHeight =
     viewportHeight === undefined ? height : Math.min(viewportHeight, height)
 
-  const { getTracks, getNotes, getPpq, getCurrentTicks, playing } = useRecital()
-  const pixelsPerTick = 0.05
   const ppq = getPpq()
   const beatWidth = pixelsPerTick * ppq * 4
 

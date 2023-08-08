@@ -36,6 +36,8 @@ const createSongFromMidi = (midi: Midi, ppq?: number): Song => {
     song.addTrack(track)
   }
 
+  song.endOfSongTicks = new Ticks(Math.round(midi.durationTicks * tickRatio))
+
   return song
 }
 
