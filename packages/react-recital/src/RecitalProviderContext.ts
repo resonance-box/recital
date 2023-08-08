@@ -28,11 +28,14 @@ function createRecitalStore(recital: Recital): RecitalContextType {
 
     return {
       player: recital.player,
+      playing: false,
       play: () => {
         get().player.play()
+        set({ playing: true })
       },
       stop: () => {
         get().player.stop()
+        set({ playing: false })
       },
       getCurrentTicks: () => {
         return get().player.getCurrentTicks().value

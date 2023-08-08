@@ -1,4 +1,4 @@
-import { useRef, type FC } from 'react'
+import { useEffect, useRef, type FC } from 'react'
 import { useRaf } from 'rooks'
 import { useRecital } from '../../../RecitalProviderContext'
 
@@ -9,7 +9,7 @@ interface PlayheadProps {
 
 export const Playhead: FC<PlayheadProps> = ({ pixelsPerTick, height }) => {
   const ref = useRef<HTMLDivElement>(null)
-  const { getCurrentTicks } = useRecital()
+  const { getCurrentTicks, playing } = useRecital()
 
   useRaf(() => {
     if (ref.current != null) {
@@ -17,7 +17,15 @@ export const Playhead: FC<PlayheadProps> = ({ pixelsPerTick, height }) => {
         pixelsPerTick * getCurrentTicks()
       }px)`
     }
-  }, true)
+  }, playing)
+
+  useEffect(() => {
+    if (playing === false && ref.current != null) {
+      ref.current.style.transform = `translateX(${
+        pixelsPerTick * getCurrentTicks()
+      }px)`
+    }
+  }, [playing])
 
   return (
     <div

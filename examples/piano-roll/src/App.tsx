@@ -13,13 +13,19 @@ import { useRaf } from 'rooks'
 
 const Transport: FC = () => {
   const ref = useRef<HTMLDivElement | null>(null)
-  const { play, stop, getCurrentTicks } = useRecital()
+  const { play, stop, getCurrentTicks, playing } = useRecital()
 
   useRaf(() => {
     if (ref.current != null) {
       ref.current.innerText = getCurrentTicks().toString()
     }
-  }, true)
+  }, playing)
+
+  useEffect(() => {
+    if (!playing && ref.current != null) {
+      ref.current.innerText = getCurrentTicks().toString()
+    }
+  }, [playing])
 
   return (
     <Stack>

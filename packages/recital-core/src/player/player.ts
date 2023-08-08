@@ -17,6 +17,7 @@ const DEFAULT_LOOK_AHEAD_TIME = 50
 export interface Player {
   song: Song
   synth?: Synth
+  readonly playing: boolean
   play: () => void
   stop: () => void
   getCurrentTicks: () => Ticks
@@ -102,6 +103,10 @@ export class PlayerImpl implements Player {
 
       this.scheduledTicks = endTicks
     }
+  }
+
+  get playing(): boolean {
+    return this.transport.playing
   }
 
   play(): void {
